@@ -52,13 +52,13 @@ body {
   width: 100%; /* Ensures text tes full width of the container */
 }
 
-#city-name {
+#location-search {
   border: none;
 }
-#city-name, #city-name::placeholder {
+#location-search, #location-search::placeholder {
   color: white;
 }
-#city-name:focus {
+#location-search:focus {
   background-color: var(--div-light-bg);
 }
 
@@ -85,24 +85,63 @@ body {
 
 
 /* Custom Scrollbar */
-.hourly-forecast-container::-webkit-scrollbar {
+.hourly-forecast-container::-webkit-scrollbar,
+*::-webkit-scrollbar {
   width: 5px; /* Width of the scrollbar */
   height: 8px;
 }
+body::-webkit-scrollbar {
+  width: 8px
+}
+.search-suggestion::-webkit-scrollbar {
+  width: 3px
+}
 
-.hourly-forecast-container::-webkit-scrollbar-thumb {
+.hourly-forecast-container::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-thumb {
   background-color: var(--gray-text-color); /* Color of the thumb */
   border-radius: 5px; /* Rounded corners of the thumb */
 }
 
-.hourly-forecast-container::-webkit-scrollbar-thumb:hover {
+.hourly-forecast-container::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:hover {
   background-color: var(--white-text-color); /* Color of the thumb on hover */
 }
 
-.hourly-forecast-container::-webkit-scrollbar-track {
+.hourly-forecast-container::-webkit-scrollbar-track,
+*::-webkit-scrollbar-track {
   background-color: var(--dark-bg); /* Color of the track */
 }
 
-.hourly-forecast-container::-webkit-scrollbar-track-piece {
+.hourly-forecast-container::-webkit-scrollbar-track-piece,
+*::-webkit-scrollbar-track-piece {
   background-color: var(--dark-bg); /* Color of the scrollbar track piece */
+}
+
+
+#search-suggestion{
+  position: absolute;
+  z-index: 2; /* Ensure the suggestions appear above other content */
+}
+
+#search-suggestion ul {
+  height: 400px;
+  overflow: auto;
+}
+#search-suggestion ul {
+  border-top: 1px solid var(--gray-text-color);
+}
+#search-suggestion li {
+  border-bottom: 1px solid var(--gray-text-color);
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 5px;
+
+}
+#search-suggestion li:hover {
+  color: var(--white-text-color);
+  cursor: pointer;
+  border: 1px solid var(--gray-text-color);
+  border-radius: 5px;
 }

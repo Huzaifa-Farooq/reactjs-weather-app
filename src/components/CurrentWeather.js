@@ -1,4 +1,16 @@
-const CurrentWeather = () => {
+import API from '../api/api';
+
+
+const CurrentWeather = (props) => {
+  const latitude = props.latitude || 52.52;
+  const longitude = props.longitude || 13.405;
+
+  function a(response){
+    console.log(response)
+  }
+
+  API.getForecast(latitude, longitude, a);
+
   return (
     <div>
       <div className="row">

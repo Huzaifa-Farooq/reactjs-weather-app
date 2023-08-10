@@ -1,11 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
+import { useState, useEffect, useCallback, useRef } from 'react';
+
 import NavigationSidebar from './components/NavigationSidebar';
-import TodaysForecast from './components/TodaysForecast';
+import HourlyForecast from './components/HourlyForecast';
 import CurrentWeather from './components/CurrentWeather';
 import DailyForecastItem from './components/DailyForecastItem';
+import SearchBar from './components/SearchBar';
 
+import API from './api/api';
 
 
 const Sidebar = () => {
@@ -16,7 +20,7 @@ const Sidebar = () => {
           <span className='gray-text'>daily forecast</span>
         </div>
 
-        <DailyForecastItem day="Mon" iconSrc="./images/sun.png" weather="Sunny" temperature="31°" />
+        <DailyForecastItem day="Today" iconSrc="./images/sun.png" weather="Sunny" temperature="31°" />
         <hr className='gray-text'/>
         <DailyForecastItem day="True" iconSrc="./images/cloud.png" weather="Sunny" temperature="31°" />
         <hr className='gray-text'/>
@@ -28,22 +32,42 @@ const Sidebar = () => {
 };
 
 
-const MainContent = () => {
+const MainContent = (props) => {
+  const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: null, longitude: null });
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+
+  const searchForLocation = (keywords) => {
+    const handleSuggestions = (suggestions) => {
+      setSearchSuggestions(suggestions.results);
+    }
+    API.getSearchSuggestions(keywords, handleSuggestions);
+  }
+
+  const setLocationCordinates = (cordinates) => {
+    if (cordinates.latitude === null || cordinates.longitude === null) {
+      return;
+    }
+    setSelectedLocationCords(cordinates);
+  }
+
   return (
     <div className="col-md-7">
-      <div className="mb-3">
-        <form>
-          <input id="city-name" type="text" className="form-control gray-bg rounded-div" placeholder="Search for city" />
-        </form>
-      </div>
-      <CurrentWeather />
 
-      <TodaysForecast />
+    <SearchBar 
+      setLocationCordinates={setLocationCordinates} 
+      searchSuggestions={searchSuggestions} 
+      searchForLocation={searchForLocation}
+    />
 
-      {/* Today's overview div */}
+    <CurrentWeather latitude={selectedLocationCords.latitude} longitude={selectedLocationCords.longitude} />
+
+    <HourlyForecast />
+
+    {/* Today's overview div */}
     </div>
   );
 };
+
 
 const App = () => {
   return (
