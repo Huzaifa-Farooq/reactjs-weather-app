@@ -28,7 +28,12 @@ function getForecast(latitude, longitude, callback) {
   const params = {
     latitude: latitude,
     longitude: longitude,
-    hourly: 'temperature_2m'
+    hourly: 'temperature_2m,precipitation_probability,weathercode,windspeed_10m',
+    daily: 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max',
+    current_weather: true,
+    timeformat: 'unixtime',
+    timezone: 'GMT',
+    // temperature_unit: 'fahrenheit'
   };
 
   return axios.get(forecastApiUrl, {

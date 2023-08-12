@@ -1,39 +1,24 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
 
 import NavigationSidebar from './components/NavigationSidebar';
-import HourlyForecast from './components/HourlyForecast';
-import CurrentWeather from './components/CurrentWeather';
-import DailyForecastItem from './components/DailyForecastItem';
 import SearchBar from './components/SearchBar';
+import WeatherForecast from './components/WeatherForecast';
 
 import API from './api/api';
 
-
-const Sidebar = () => {
-  return (
-    <div className="col-md-3 sidebar">
-      <div className="gray-bg rounded-div">
-        <div className='forcast-name'>
-          <span className='gray-text'>daily forecast</span>
-        </div>
-
-        <DailyForecastItem day="Today" iconSrc="./images/sun.png" weather="Sunny" temperature="31°" />
-        <hr className='gray-text'/>
-        <DailyForecastItem day="True" iconSrc="./images/cloud.png" weather="Sunny" temperature="31°" />
-        <hr className='gray-text'/>
-        <DailyForecastItem day="Mon" iconSrc="./images/sun.png" weather="Sunny" temperature="31°" />
-
-      </div>
-    </div>
-  );
-};
+// importing all CSS files from /css/ directory
+import './css/main.css'
+import './css/weather-icons.css'
+import './css/weather-icons.min.css'
+import './css/weather-icons-wind.css'
+import './css/weather-icons-wind.min.css'
 
 
 const MainContent = (props) => {
-  const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: null, longitude: null });
+  const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.8580, longitude: 72.4140 });
   const [searchSuggestions, setSearchSuggestions] = useState([]);
 
   const searchForLocation = (keywords) => {
@@ -51,19 +36,16 @@ const MainContent = (props) => {
   }
 
   return (
-    <div className="col-md-7">
-
-    <SearchBar 
-      setLocationCordinates={setLocationCordinates} 
-      searchSuggestions={searchSuggestions} 
-      searchForLocation={searchForLocation}
-    />
-
-    <CurrentWeather latitude={selectedLocationCords.latitude} longitude={selectedLocationCords.longitude} />
-
-    <HourlyForecast />
-
-    {/* Today's overview div */}
+    <div className="col-md-11">
+      <SearchBar
+        setLocationCordinates={setLocationCordinates}
+        searchSuggestions={searchSuggestions}
+        searchForLocation={searchForLocation}
+      />
+      <WeatherForecast 
+        latitude={selectedLocationCords.latitude} 
+        longitude={selectedLocationCords.longitude}
+      />
     </div>
   );
 };
@@ -73,14 +55,8 @@ const App = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        {/* Navigation Bar */}
         <NavigationSidebar />
-
-        {/* Main Content Column */}
         <MainContent />
-
-        {/* Sidebar Column */}
-        <Sidebar />
       </div>
     </div>
   );

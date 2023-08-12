@@ -57,7 +57,7 @@ const SearchBar = (props) => {
   }
 
   return (
-    <div className="mb-3">
+    <div className="mb-4 col-9">
       <form onSubmit={handleFormSubmit}>
         <input 
           ref={inputRef}

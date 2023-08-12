@@ -1,36 +1,36 @@
 import HourlyForecastItem from './HourlyForecastItem';
-import VerticalLine from './VerticalLine';
+
+import { formatTimeToAMPM } from '../utils'
 
 
-const HourlyForecast = () => {
+
+const HourlyForecast = (props) => {
+  // Next 24 hours starting from current hour
+  const currentDate = new Date();
+  const hourlyForecast = props.hourlyForecast.filter(data => data.time >= currentDate).slice(0, 24);
+
   return (
     <div className="gray-bg rounded-div">
       <div className='forcast-name'>
         <span className='gray-text'>Today's forecast</span>
       </div>
       <div className='hourly-forecast-container'>
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/cloud.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/cloud.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/cloud.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/cloud.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-        <VerticalLine />
-        <HourlyForecastItem time="6:00 AM" iconSrc="./images/sun.png" temperature="20°" />
-
+        {
+          hourlyForecast.map((data, index) => {
+            return <>
+                <HourlyForecastItem 
+                  key={index}
+                  units={props.units}
+                  time={formatTimeToAMPM(data.time)}
+                  iconSrc={data.iconSrc}
+                  temperature={data.temperature_2m}
+                  description={data.description}
+                  precipitation_probability={data.precipitation_probability}
+                />
+              {/* <VerticalLine /> */}
+            </>
+          })
+        }
       </div>
     </div>
   );

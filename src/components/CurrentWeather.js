@@ -1,30 +1,23 @@
-import API from '../api/api';
-
 
 const CurrentWeather = (props) => {
-  const latitude = props.latitude || 52.52;
-  const longitude = props.longitude || 13.405;
-
-  function a(response){
-    console.log(response)
-  }
-
-  API.getForecast(latitude, longitude, a);
+  const currentWeather = props.currentWeather;
+  const cityName = props.cityName;
+  const subTitle = props.subTitle;
 
   return (
     <div>
       <div className="row">
         <div className="col-md-6">
           <div className="row">
-            <span className="white-text">Madrid</span>
+            <span className="white-text">{cityName}</span>
           </div>
           <div className="row">
-            <span className="white-text">31°</span>
+            <span className="white-text">{currentWeather.temperature}</span>
           </div>
         </div>
         <div className="col-md-6">
           <div className="current-weather-icon-div">
-            <img src="./images/sun.png" alt="Weather Icon" />
+            <img src={currentWeather.iconSrc} alt={currentWeather.description} />
           </div>
         </div>
       </div>

@@ -1,20 +1,20 @@
-const DailyForecastItem = ({ day, iconSrc, weather, temperature }) => {
+const DailyForecastItem = (props) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div className="center-text">
-        <span className='gray-text'>{day}</span>
+        <span className='gray-text'>{props.day}</span>
       </div>
       <div>
         <div className="forecast-icon-div">
-          <img src={iconSrc} alt="Weather Icon" />
+          <img src={props.iconSrc} alt="Weather Icon" />
         </div>
         <div className="center-text">
-          <span className='white-text'>{weather}</span>
+          <span className='white-text'>{props.description}</span>
         </div>
       </div>
       <div className="center-text">
-        <span className='gray-text'>{temperature} / </span>
-        <span className='white-text'>{temperature}</span>
+        <span className='gray-text'>{props.temperatureMax} / </span>
+        <span className='white-text'>{props.temperatureMin}</span>
       </div>
     </div>
   );
