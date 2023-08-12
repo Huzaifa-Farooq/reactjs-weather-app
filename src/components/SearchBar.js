@@ -39,15 +39,24 @@ const SearchBar = (props) => {
       const longitude = location.longitude;
 
       props.setLocationCordinates({ latitude, longitude });
+      
+      const cityNameArray = [location.name, location.admin2, location.admin1, location.country];
+      const cityName = cityNameArray.filter((text) => Boolean(text)).join(', ');
+      props.setLocationData({
+        cityName: cityName,
+        countryCode: location.country_code,
+      });
     }
   }, []);
 
   let suggestions = []
   if (props.searchSuggestions.length > 0) { 
     suggestions = props.searchSuggestions.map((suggestion) => {
+      const textArray = [suggestion.name, suggestion.admin2, suggestion.admin1, suggestion.country];
+      const text = textArray.filter((text) => Boolean(text)).join(', ');
       return (
           <li data={JSON.stringify(suggestion)} onClick={handleLocationSelect} key={suggestion.id} className="list-group-item gray-bg gray-text">
-            {suggestion.name}, {suggestion.admin1}, {suggestion.country} ({suggestion.timezone && <span>{suggestion.timezone}</span>})
+            {text} ({suggestion.timezone && <span>{suggestion.timezone}</span>})
             <p style={{ marginTop: '0px', marginBottom: '0px', fontSize: '12px' }}>
               Lat: {suggestion.latitude} Long: {suggestion.longitude}
             </p>

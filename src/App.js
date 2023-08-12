@@ -19,6 +19,10 @@ import './css/weather-icons-wind.min.css'
 
 const MainContent = (props) => {
   const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.8580, longitude: 72.4140 });
+  const [selectedLocationInfo, setSelectedLocationInfo] = useState({
+    cityName: 'Kamra, Attock',
+    countryCode: 'PK'
+  }); // [cityName, subTitle]
   const [searchSuggestions, setSearchSuggestions] = useState([]);
 
   const searchForLocation = (keywords) => {
@@ -35,16 +39,22 @@ const MainContent = (props) => {
     setSelectedLocationCords(cordinates);
   }
 
+  const setLocationData = (locationData) => {
+    setSelectedLocationInfo(locationData);
+  }
+
   return (
     <div className="col-md-11">
       <SearchBar
         setLocationCordinates={setLocationCordinates}
+        setLocationData={setLocationData}
         searchSuggestions={searchSuggestions}
         searchForLocation={searchForLocation}
       />
       <WeatherForecast 
         latitude={selectedLocationCords.latitude} 
         longitude={selectedLocationCords.longitude}
+        selectedLocationInfo={selectedLocationInfo}
       />
     </div>
   );

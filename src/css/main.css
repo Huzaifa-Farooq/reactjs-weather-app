@@ -16,6 +16,7 @@
 body {
   background-color: var(--dark-bg);
   padding: 20px;
+  font-family: 'Rubik', sans-serif;
 }
 
 .gray-bg {
@@ -154,4 +155,26 @@ body::-webkit-scrollbar {
   overflow: auto;
   height: 800px;
   padding-right: 15px;
+}
+
+ul.nav > li {
+  margin-bottom: 10px;
+}
+nav a > span {
+  font-size: 12px;
+  font-weight: bold;
+}
+nav a i{
+  font-size: 24px;
+}
+nav a.active {
+  font-weight: bold;
+}
+nav a.active:hover {
+  color: var(--white-text-color);
+  cursor: default;
+}
+nav a.nav-link:hover{
+  font-weight: bold;
+  color: var(--white-text-color);
 }

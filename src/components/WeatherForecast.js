@@ -93,9 +93,9 @@ class WeatherForecast extends React.Component {
       return (
         <div className='row'>
           <div className='col-md-9'>
-            <CurrentWeather currentWeather={forecastData.currentWeather} />
-            <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={forecastData.hourlyForecastUnits} />
+            <CurrentWeather selectedLocationInfo={this.props.selectedLocationInfo} currentWeather={forecastData.currentWeather} />
             <CurrentWeatherDetails currentWeather={forecastData.currentWeather} />
+            <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={forecastData.hourlyForecastUnits} />
           </div>
           <div className='col-md-3'>
             <DailyForecast dailyForecast={forecastData.dailyForecast} />

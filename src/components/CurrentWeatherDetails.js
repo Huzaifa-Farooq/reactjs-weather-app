@@ -9,12 +9,15 @@ import '../css/weather-icons-wind.min.css'
 
 const CurrentWeatherDetails = (props) => {
   return (
-    <div className='gray-bg rounded-div'>
+    <div style={{ marginTop: '10px' }} className='gray-bg rounded-div mb-3'>
       <div className='forcast-name'>
         <span className='gray-text'>Details</span>
       </div>
       <div className='row'>
-        <CurrentWeatherDetailItem iconName='wi-thermometer' title='Temperature' value='36' />
+        <CurrentWeatherDetailItem iconName='wi-thermometer' title='Temperature' value='36°' />
+        <CurrentWeatherDetailItem iconName='wi-wind' title='Wind' value='22km/h' />
+        <CurrentWeatherDetailItem iconName='wi-raindrop' title='Chance of rain' value='3%' />
+        <CurrentWeatherDetailItem iconName='wi-raindrop' title='Chance of rain' value='3%' />
       </div>
     </div>
   );
@@ -23,20 +26,17 @@ const CurrentWeatherDetails = (props) => {
 
 const CurrentWeatherDetailItem = ({ iconName, title, value }) => {
   return (
-    <div className='col-3'>
+    <div className='col-4'>
       <div className='curr-weather-detail-item'>
         <div style={{ display: 'flex' }}>
-          <div style={{ marginRight: '5px' }} className='col-1'>
-            <i style={{ fontSize: '28px' }} className={'gray-text wi ' + iconName}></i>
+          <div style={{ marginTop: '3px', textAlign: 'center' }} className='col-2'>
+            <i style={{ fontSize: '22px' }} className={'gray-text wi ' + iconName}></i>
           </div>
-          <span style={{ fontSize: '20px' }} className='gray-text'>{title}</span>
+          <div className='col-10'>
+            <span style={{ fontSize: '15px' }} className='gray-text'>{title}</span><br />
+            <span style={{ marginLeft: 'auto', fontSize: '24px', fontWeight: 800 }} className='white-text'>{value}</span>
+          </div>
         </div>
-        <div style={{ display: 'flex' }}>
-          <div className='col-2'></div>
-            <div className='col-6'>
-              <span style={{ fontSize: '32px' }} className='white-text'>{value}</span>
-            </div>
-          </div>
       </div>
     </div>
   );
