@@ -1,41 +1,69 @@
 import React from 'react';
 import { Fragment } from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faWind,
+  // water drop
+  faTint,
+} from '@fortawesome/free-solid-svg-icons'
+
 import '../css/weather-icons.css'
 import '../css/weather-icons.min.css'
 import '../css/weather-icons-wind.css'
 import '../css/weather-icons-wind.min.css'
 
 
-const CurrentWeatherDetails = (props) => {
+const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitationProbability }) => {
+  const weatherDetails = [
+    { title: 'Temperature', value: temperature, iconName: 'wi wi-thermometer' },
+    { title: 'Humidity', value: humidity, iconName: 'wi wi-humidity' },
+    { title: 'Wind', value: windSpeed, iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faWind} />,},
+    {
+      title: 'Chance of rain', value: precipitationProbability,
+      iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
+    },
+  ];
   return (
     <div style={{ marginTop: '10px' }} className='gray-bg rounded-div mb-3'>
       <div className='forcast-name'>
         <span className='gray-text'>Details</span>
       </div>
-      <div className='row'>
-        <CurrentWeatherDetailItem iconName='wi-thermometer' title='Temperature' value='36°' />
-        <CurrentWeatherDetailItem iconName='wi-wind' title='Wind' value='22km/h' />
-        <CurrentWeatherDetailItem iconName='wi-raindrop' title='Chance of rain' value='3%' />
-        <CurrentWeatherDetailItem iconName='wi-raindrop' title='Chance of rain' value='3%' />
+      <div className='container'>
+        <div className='row'>
+          {weatherDetails.map((item, index) => {
+            return (
+              <div className='col-md-4 col-sm-6' style={{ marginBottom: '10px' }}>
+                <CurrentWeatherDetailItem
+                  key={index}
+                  title={item.title}
+                  value={item.value}
+                  iconName={item.iconName}
+                  iconElement={item.iconElement}
+                />
+              </div>
+            );
+          })
+          }
+        </div>
       </div>
     </div>
   );
 }
 
 
-const CurrentWeatherDetailItem = ({ iconName, title, value }) => {
+const CurrentWeatherDetailItem = ({ iconName, iconElement, title, value }) => {
+  const icon = iconElement ? iconElement : <i style={{ fontSize: '22px' }} className={'gray-text ' + iconName}></i>
   return (
-    <div className='col-4'>
-      <div className='curr-weather-detail-item'>
-        <div style={{ display: 'flex' }}>
-          <div style={{ marginTop: '3px', textAlign: 'center' }} className='col-2'>
-            <i style={{ fontSize: '22px' }} className={'gray-text wi ' + iconName}></i>
-          </div>
-          <div className='col-10'>
-            <span style={{ fontSize: '15px' }} className='gray-text'>{title}</span><br />
-            <span style={{ marginLeft: 'auto', fontSize: '24px', fontWeight: 800 }} className='white-text'>{value}</span>
-          </div>
+    <div className='curr-weather-detail-item'>
+      <div style={{ display: 'flex' }}>
+        <div style={{ marginTop: '3px', textAlign: 'center' }} className='col-2'>
+          {/* <i style={{ fontSize: '22px' }} className={'gray-text ' + iconName}></i> */}
+          {icon}
+        </div>
+        <div className='col-10'>
+          <span style={{ fontSize: '15px' }} className='gray-text'>{title}</span><br />
+          <span style={{ marginLeft: 'auto', fontSize: '24px', fontWeight: 800 }} className='white-text'>{value}</span>
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
 import NavigationSidebar from './components/NavigationSidebar';
 import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
+import Settings from './components/Settings';
 
 import API from './api/api';
 
@@ -44,19 +45,19 @@ const MainContent = (props) => {
   }
 
   return (
-    <div className="col-md-11">
+    <Fragment>
       <SearchBar
         setLocationCordinates={setLocationCordinates}
         setLocationData={setLocationData}
         searchSuggestions={searchSuggestions}
         searchForLocation={searchForLocation}
       />
-      <WeatherForecast 
-        latitude={selectedLocationCords.latitude} 
+      <WeatherForecast
+        latitude={selectedLocationCords.latitude}
         longitude={selectedLocationCords.longitude}
         selectedLocationInfo={selectedLocationInfo}
       />
-    </div>
+    </Fragment>
   );
 };
 
@@ -65,8 +66,17 @@ const App = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <NavigationSidebar />
-        <MainContent />
+        <div className='col-md-1'>
+          <NavigationSidebar />
+        </div>
+
+        <div className='col-md-8' style={{ marginTop: '20px' }}>
+          <Settings />
+        </div>
+        <div className="col-md-11">
+          {/* <MainContent /> */}
+        </div>
+
       </div>
     </div>
   );

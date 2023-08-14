@@ -22,6 +22,9 @@ body {
 .gray-bg {
   background-color: var(--div-light-bg);
 }
+.dark-bg {
+  background-color: var(--dark-bg);
+}
 
 .rounded-div {
   border-radius: 10px;
@@ -170,6 +173,7 @@ nav a i{
 nav a.active {
   font-weight: bold;
 }
+
 nav a.active:hover {
   color: var(--white-text-color);
   cursor: default;
@@ -177,4 +181,40 @@ nav a.active:hover {
 nav a.nav-link:hover{
   font-weight: bold;
   color: var(--white-text-color);
+}
+
+
+/* settings */
+.option {
+  margin: 0px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.option .option-div {
+  margin: 0px;
+  padding-left: 8px;
+  text-align: center;
+}
+.option span {
+  color: var(--gray-text-color);
+}
+.option .active {
+  background-color: var(--div-light-bg);
+  font-weight: normal;
+  border-radius: 10px;
+  cursor: default;
+  transition: 0.6s;
+}
+.option .active span {
+  color: var(--white-text-color);
+}
+
+.option:not(.active):hover {
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.option-div {
+  padding: 2px 0 2px 2px;
+  margin: 0px;
 }

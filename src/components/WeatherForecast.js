@@ -22,6 +22,20 @@ class WeatherForecast extends React.Component {
   }
 
   setForecastData(response) {
+    const currentHourData = response.hourly.time.map((timestamp, index) => {
+      const time = new Date(timestamp * 1000); // Convert UNIX timestamp to JavaScript Date
+      if((time.getHours() === new Date().getHours()) && (time.getDate() === new Date().getDate())) {
+        return {
+          precipitation_probability: response.hourly.precipitation_probability[index],
+          humidity: response.hourly.relativehumidity_2m[index],
+        };
+      }
+      else{
+        return null;
+      }
+    }).filter((item) => item != null)[0];
+    console.log(currentHourData);
+
     const hourlyForecast = response.hourly.time.map((timestamp, index) => {
       const wmoCode = response.hourly.weathercode[index];
       const time = new Date(timestamp * 1000); // Convert UNIX timestamp to JavaScript Date
@@ -60,6 +74,7 @@ class WeatherForecast extends React.Component {
     const isDay = time.getHours() >= 6 && time.getHours() < 18; // Assuming daytime is between 6 AM and 6 PM  
     const { iconSrc, description } = getIconSrcAndDesc(wmoCode, isDay);
     const currentWeather = {
+      ...currentHourData,
       "temperature": response.current_weather.temperature,
       "windspeed": response.current_weather.windspeed,
       "winddirection": response.current_weather.winddirection,
@@ -94,7 +109,12 @@ class WeatherForecast extends React.Component {
         <div className='row'>
           <div className='col-md-9'>
             <CurrentWeather selectedLocationInfo={this.props.selectedLocationInfo} currentWeather={forecastData.currentWeather} />
-            <CurrentWeatherDetails currentWeather={forecastData.currentWeather} />
+            <CurrentWeatherDetails 
+              temperature={forecastData.currentWeather.temperature} 
+              windSpeed={forecastData.currentWeather.windspeed} 
+              humidity={forecastData.currentWeather.humidity}
+              precipitationProbability={forecastData.currentWeather.precipitation_probability}
+              />
             <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={forecastData.hourlyForecastUnits} />
           </div>
           <div className='col-md-3'>
