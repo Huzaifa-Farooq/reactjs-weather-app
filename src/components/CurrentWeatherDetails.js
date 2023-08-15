@@ -14,15 +14,17 @@ import '../css/weather-icons-wind.css'
 import '../css/weather-icons-wind.min.css'
 
 
-const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitationProbability }) => {
+const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitationProbability, feelsLike, units }) => {
+  console.log(units);
   const weatherDetails = [
-    { title: 'Temperature', value: temperature, iconName: 'wi wi-thermometer' },
-    { title: 'Humidity', value: humidity, iconName: 'wi wi-humidity' },
-    { title: 'Wind', value: windSpeed, iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faWind} />,},
+    { title: 'Temperature', value: `${temperature} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
+    { title: 'Humidity', value: `${humidity}%`, iconName: 'wi wi-humidity' },
+    { title: 'Wind', value: `${windSpeed} ${units.windspeed_unit}`, iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faWind} />, },
     {
-      title: 'Chance of rain', value: precipitationProbability,
+      title: 'Chance of rain', value: `${precipitationProbability}%`,
       iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
     },
+    { title: 'Feels like', value: `${feelsLike} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
   ];
   return (
     <div style={{ marginTop: '10px' }} className='gray-bg rounded-div mb-3'>

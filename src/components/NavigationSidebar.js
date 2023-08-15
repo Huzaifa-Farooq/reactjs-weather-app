@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 const NavigationSidebar = ({ isHomeActive, isSettingsActive, setActiveSection }) => {
   return (
     <div className="text-light sidebar gray-bg rounded-div" 
-      style={{ padding: '10px 0px 10px 0px', width: '90px', backgroundColor: 'none' }}>
+      style={{ padding: '10px 0px 10px 0px', marginBottom: '10px', width: '90px', backgroundColor: 'none', position: 'fixed' }}>
       <nav className="navbar">
         <div className="position-sticky">
           <ul className="nav flex-column">

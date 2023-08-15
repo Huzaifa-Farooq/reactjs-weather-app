@@ -4,6 +4,7 @@ import DailyForecastItem from './DailyForecastItem';
 
 const DailyForecast = (props) => {
   const dailyForecast = props.dailyForecast;
+  const units = props.units;
 
   return (
     <div className="sidebar">
@@ -20,8 +21,8 @@ const DailyForecast = (props) => {
                   day={data.time.toLocaleString('en-US', { weekday: 'short' })}
                   iconSrc={data.iconSrc}
                   description={data.description}
-                  temperatureMax={data.temperature_2m_max}
-                  temperatureMin={data.temperature_2m_min}
+                  temperatureMax={`${data.temperature_2m_max}${units.temperature_unit}`}
+                  temperatureMin={`${data.temperature_2m_min}${units.temperature_unit}`}
                 />
                 <hr className='gray-text' />
               </>

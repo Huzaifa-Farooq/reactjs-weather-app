@@ -8,7 +8,7 @@ import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import Settings from './components/Settings';
 
-import getIconSrcAndDesc from './utils'
+import { getIconSrcAndDesc, unitsMap } from './utils'
 import API from './api/api';
 
 // importing all CSS files from /css/ directory
@@ -17,11 +17,12 @@ import './css/weather-icons.css'
 import './css/weather-icons.min.css'
 import './css/weather-icons-wind.css'
 import './css/weather-icons-wind.min.css'
+import Cookies from 'js-cookie';
 
 
 const MainContent = ({ 
   selectedLocationCords, setLocationCordinates, selectedLocationInfo, setLocationData,
-  forecastData
+  forecastData, units
 }) => {
   const [searchSuggestions, setSearchSuggestions] = useState([]);
 
@@ -31,7 +32,6 @@ const MainContent = ({
     }
     API.getSearchSuggestions(keywords, handleSuggestions);
   }
-
   return (
     <Fragment>
       <SearchBar
@@ -45,6 +45,13 @@ const MainContent = ({
         longitude={selectedLocationCords.longitude}
         selectedLocationInfo={selectedLocationInfo}
         forecastData={forecastData}
+        units={
+          {
+            ...units,
+            temperature_unit: unitsMap[units.temperature_unit],
+            precipitation_unit: unitsMap[units.precipitation_unit]
+        }
+      }
       />
     </Fragment>
   );
@@ -61,6 +68,49 @@ const App = () => {
     countryCode: 'PK'
   }); // [cityName, subTitle]
   const [forecastData, setForecastData] = useState(null);
+  const [currentUnits, setCurrentUnits] = useState({});
+
+  const settingsObject = [
+    {
+      title: "Temperature",
+      identifier: "temperature_unit",
+      options: [
+        { value: 'celsius', displayText: "Celcius", active: true },
+        { value: 'fahrenheit', displayText: "Fahrenhote", active: false },
+      ]
+    },
+    {
+      title: "Wind Speed",
+      identifier: "windspeed_unit",
+      options: [
+        { value: 'kmh', displayText: "Km/h", active: true },
+        { value: 'ms', displayText: "m/s", active: false },
+        { value: 'mph', displayText: "Mph", active: false },
+        { value: 'kn', displayText: "Knots", active: false },
+      ]
+    },
+    {
+      title: "Precipitation",
+      identifier: "precipitation_unit",
+      options: [
+        { value: "mm", displayText: 'Milimeters', active: true },
+        { value: "inch", displayText: 'Inches', active: false },
+      ]
+    }
+  ];
+
+
+  // setting default cookies if not set
+  const units = {};
+  settingsObject.forEach((setting) => {
+    const cookieValue = Cookies.get(setting.identifier);
+    const defaultOption = setting.options.filter(option => option.active)[0].value;
+    units[setting.identifier] = cookieValue || defaultOption;
+
+    if (!cookieValue) {
+      Cookies.set(setting.identifier, defaultOption);
+    }
+  })
 
   const setLocationCordinates = (cordinates) => {
     if (cordinates.latitude === null || cordinates.longitude === null) {
@@ -95,6 +145,7 @@ const App = () => {
         return {
           precipitation_probability: response.hourly.precipitation_probability[index],
           humidity: response.hourly.relativehumidity_2m[index],
+          feelsLike: response.hourly.apparent_temperature[index],
         };
       }
       else{
@@ -117,7 +168,6 @@ const App = () => {
         description
       };
     });
-    const hourlyForecastUnits = response.hourly_units;
     const dailyForecast = response.daily.time.map((timestamp, index) => {
       const wmoCode = response.hourly.weathercode[index]
       const time = new Date(timestamp * 1000); // Convert UNIX timestamp to JavaScript Date
@@ -133,7 +183,6 @@ const App = () => {
         description
       };
     });
-    const dailyForecastUnits = response.daily_units;
 
     const wmoCode = response.current_weather.weathercode;
     const time = new Date(response.current_weather.time * 1000); // Convert UNIX timestamp to JavaScript Date
@@ -151,17 +200,18 @@ const App = () => {
 
     setForecastData({
         hourlyForecast: hourlyForecast,
-        hourlyForecastUnits: hourlyForecastUnits,
         dailyForecast: dailyForecast,
-        dailyForecastUnits: dailyForecastUnits,
         currentWeather: currentWeather
       })
   }
 
-  // updating only when selectedLocationCords changes
+  // updating only when selectedLocationCords or units changes
   useEffect(() => {
-    API.getForecast(selectedLocationCords.latitude, selectedLocationCords.longitude, updateForecastData)
-  }, [selectedLocationCords]);
+    if (JSON.stringify(units) !== JSON.stringify(currentUnits)) {
+      setCurrentUnits(units);
+      API.getForecast(selectedLocationCords.latitude, selectedLocationCords.longitude, updateForecastData, units);
+    }
+  }, [currentUnits, selectedLocationCords, units]);
 
   return (
     <div className="container-fluid">
@@ -183,11 +233,14 @@ const App = () => {
                 setLocationCordinates={setLocationCordinates}
                 setLocationData={setLocationData}
                 forecastData={forecastData}
+                units={units}
               />
             </div>
           ) : (
             <div className='col-md-8' style={{ marginTop: '20px' }}>
-              <Settings />
+              <Settings
+                settingsObject={settingsObject}
+              />
             </div>
           )
         }
@@ -195,6 +248,6 @@ const App = () => {
       </div>
     </div>
   );
-};
+}
 
 export default App;

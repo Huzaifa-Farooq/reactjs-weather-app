@@ -218,3 +218,27 @@ nav a.nav-link:hover{
   padding: 2px 0 2px 2px;
   margin: 0px;
 }
+
+.button {
+  padding: 10px 20px;
+  margin: 5px;
+  margin-top: 10px;
+  float: right;
+  background-color: var(--div-light-bg);
+  color: var(--white-text-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button:hover {
+  background-color: var(--dark-bg);
+  color: var(--white-text-color);
+  box-shadow: 0 0 5px var(--gray-text-color);
+}
+
+.button:focus {
+  outline: none;
+}
+

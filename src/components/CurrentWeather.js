@@ -4,6 +4,8 @@ const CurrentWeather = (props) => {
   const cityName = props.selectedLocationInfo.cityName;
   const countryCode = props.selectedLocationInfo.countryCode;
 
+  const units = props.units;
+
   return (
     <div>
       <div className="row">
@@ -15,7 +17,9 @@ const CurrentWeather = (props) => {
             </h2>
           </div>
           <div className="row">
-            <h1 style={{ fontWeight: '600' }} className="white-text">{currentWeather.temperature}°</h1>
+            <h1 style={{ fontWeight: '600' }} className="white-text">
+              {currentWeather.temperature} {units.temperature_unit}
+            </h1>
           </div>
         </div>
         <div className="col-md-6">

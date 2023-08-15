@@ -25,7 +25,6 @@ const SearchBar = (props) => {
   }, );
 
   const handleFormSubmit = useCallback((e) => {
-    console.log(locationSearchValue);
     props.searchForLocation(locationSearchValue);
     e.preventDefault();
   }, );

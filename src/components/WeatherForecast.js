@@ -18,20 +18,26 @@ const WeatherForecast = (props) => {
     return (
       <div className='row'>
         <div className='col-md-9'>
-          <CurrentWeather selectedLocationInfo={props.selectedLocationInfo} currentWeather={forecastData.currentWeather} />
+          <CurrentWeather 
+            selectedLocationInfo={props.selectedLocationInfo} 
+            currentWeather={forecastData.currentWeather}
+            units={props.units}
+          />
           <CurrentWeatherDetails
             temperature={forecastData.currentWeather.temperature}
             windSpeed={forecastData.currentWeather.windspeed}
             humidity={forecastData.currentWeather.humidity}
             precipitationProbability={forecastData.currentWeather.precipitation_probability}
+            feelsLike={forecastData.currentWeather.feelsLike}
+            units={props.units}
           />
-          <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={forecastData.hourlyForecastUnits} />
+          <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={props.units} />
         </div>
         <div className='col-md-3'>
-          <DailyForecast dailyForecast={forecastData.dailyForecast} />
+          <DailyForecast dailyForecast={forecastData.dailyForecast} units={props.units} />
         </div>
       </div>
-    )
+    ) 
   }
 }
 

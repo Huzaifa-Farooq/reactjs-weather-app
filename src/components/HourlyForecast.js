@@ -8,6 +8,7 @@ const HourlyForecast = (props) => {
   // Next 24 hours starting from current hour
   const currentDate = new Date();
   const hourlyForecast = props.hourlyForecast.filter(data => data.time >= currentDate).slice(0, 24);
+  const units = props.units;
 
   return (
     <div className="gray-bg rounded-div">
@@ -20,14 +21,12 @@ const HourlyForecast = (props) => {
             return <>
                 <HourlyForecastItem 
                   key={index}
-                  units={props.units}
                   time={formatTimeToAMPM(data.time)}
                   iconSrc={data.iconSrc}
-                  temperature={data.temperature_2m}
+                  temperature={`${data.temperature_2m} ${units.temperature_unit}`}
                   description={data.description}
-                  precipitation_probability={data.precipitation_probability}
+                  precipitation_probability={`${data.precipitation_probability}%`}
                 />
-              {/* <VerticalLine /> */}
             </>
           })
         }

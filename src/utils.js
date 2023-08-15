@@ -282,6 +282,16 @@ const descriptions = {
 	}
 }
 
+
+const unitsMap = {
+	'celsius': '°C',
+	'fahrenheit': '°F',
+	'kelvin': 'K',
+	'mm': 'mm',
+	'inch': 'in'
+};
+
+
 const getIconSrcAndDesc = (wmoCode, isDay) => {
   const dayOrNight = isDay ? 'day' : 'night';
   let iconSrc = descriptions[wmoCode][dayOrNight]["image"];
@@ -298,5 +308,4 @@ function formatTimeToAMPM(date) {
 }
 
 
-export default getIconSrcAndDesc;
-export { formatTimeToAMPM };
+export { getIconSrcAndDesc, formatTimeToAMPM, unitsMap };
