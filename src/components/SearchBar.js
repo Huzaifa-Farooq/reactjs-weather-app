@@ -49,7 +49,7 @@ const SearchBar = (props) => {
   }, []);
 
   let suggestions = []
-  if (props.searchSuggestions.length > 0) { 
+  if (props.searchSuggestions && props.searchSuggestions.length > 0) { 
     suggestions = props.searchSuggestions.map((suggestion) => {
       const textArray = [suggestion.name, suggestion.admin2, suggestion.admin1, suggestion.country];
       const text = textArray.filter((text) => Boolean(text)).join(', ');
@@ -62,6 +62,13 @@ const SearchBar = (props) => {
           </li>
       );
     });
+  }
+  else if (props.searchSuggestions && props.searchSuggestions.length === 0) {
+    suggestions = [
+      <li className="list-group-item disabled gray-bg gray-text">
+        No Results Found
+      </li>
+    ];
   }
 
   return (
@@ -78,7 +85,9 @@ const SearchBar = (props) => {
         />
       </form>
       <div className='mb-3' id='search-suggestion'>
-        {suggestions.length && showSuggestions ? <ul className="list-group">{suggestions}</ul> : null}
+        {
+          showSuggestions  && suggestions.length > 0 ? <ul className="list-group">{suggestions}</ul> : null
+        }
       </div>
     </div>
   );

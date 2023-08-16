@@ -9,12 +9,17 @@ const CurrentWeather = (props) => {
   return (
     <div>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col-md-8">
           <div className="row mb-3">
-            <h2 style={{ fontWeight: '600' }}>
-              <span className="white-text">{cityName}</span>
-              <sub style={{ marginLeft: '5px', fontSize: '12px' }} className="white-text">{countryCode}</sub>
+            <h2 className="white-text" style={{ fontWeight: '600' }}>
+              <span>{cityName}</span>
+              <sub style={{ marginLeft: '5px', fontSize: '12px' }}>{countryCode}</sub>
             </h2>
+          </div>
+          <div className="row mb-3">
+            <h3 className="white-text">
+              <span>{currentWeather.description}</span>
+            </h3>
           </div>
           <div className="row">
             <h1 style={{ fontWeight: '600' }} className="white-text">
@@ -22,7 +27,7 @@ const CurrentWeather = (props) => {
             </h1>
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-4">
           <div className="current-weather-icon-div">
             <img src={currentWeather.iconSrc} alt={currentWeather.description} />
           </div>

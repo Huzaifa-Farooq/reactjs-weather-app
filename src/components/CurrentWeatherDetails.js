@@ -18,13 +18,13 @@ const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitation
   console.log(units);
   const weatherDetails = [
     { title: 'Temperature', value: `${temperature} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
-    { title: 'Humidity', value: `${humidity}%`, iconName: 'wi wi-humidity' },
+    { title: 'Feels like', value: `${feelsLike} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
     { title: 'Wind', value: `${windSpeed} ${units.windspeed_unit}`, iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faWind} />, },
+    { title: 'Humidity', value: `${humidity}%`, iconName: 'wi wi-humidity' },
     {
       title: 'Chance of rain', value: `${precipitationProbability}%`,
       iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
     },
-    { title: 'Feels like', value: `${feelsLike} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
   ];
   return (
     <div style={{ marginTop: '10px' }} className='gray-bg rounded-div mb-3'>

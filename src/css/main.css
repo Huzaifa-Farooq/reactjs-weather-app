@@ -32,8 +32,8 @@ body {
 }
 
 .current-weather-icon-div {
-  width: 240px;
-  height: 220px;
+  width: 260px;
+  height: 240px;
   float: right;
 }
 
@@ -134,10 +134,10 @@ body::-webkit-scrollbar {
 
 #search-suggestion ul {
   height: 400px;
+  min-width: 400px;
   overflow: auto;
-}
-#search-suggestion ul {
   border-top: 1px solid var(--gray-text-color);
+
 }
 #search-suggestion li {
   border-bottom: 1px solid var(--gray-text-color);
@@ -147,6 +147,7 @@ body::-webkit-scrollbar {
   border-radius: 5px;
 
 }
+
 #search-suggestion li:hover {
   color: var(--white-text-color);
   cursor: pointer;
@@ -242,3 +243,31 @@ nav a.nav-link:hover{
   outline: none;
 }
 
+.main-content {
+  animation: fadeInDown 0.5s ease forwards;
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-div {
+  animation: fadeInUp 0.5s ease forwards;
+}
+@keyframes fadeInUp {
+  0% {
+    opacity: 0.4;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -7,6 +7,7 @@ import NavigationSidebar from './components/NavigationSidebar';
 import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import Settings from './components/Settings';
+import Preloader from './components/Preloader';
 
 import { getIconSrcAndDesc, unitsMap } from './utils'
 import API from './api/api';
@@ -20,7 +21,7 @@ import './css/weather-icons-wind.min.css'
 import Cookies from 'js-cookie';
 
 
-const MainContent = ({ 
+const MainContent = ({
   selectedLocationCords, setLocationCordinates, selectedLocationInfo, setLocationData,
   forecastData, units
 }) => {
@@ -28,7 +29,8 @@ const MainContent = ({
 
   const searchForLocation = (keywords) => {
     const handleSuggestions = (suggestions) => {
-      setSearchSuggestions(suggestions.results);
+      const results = suggestions.results ? suggestions.results : [];
+      setSearchSuggestions(results);
     }
     API.getSearchSuggestions(keywords, handleSuggestions);
   }
@@ -50,8 +52,8 @@ const MainContent = ({
             ...units,
             temperature_unit: unitsMap[units.temperature_unit],
             precipitation_unit: unitsMap[units.precipitation_unit]
+          }
         }
-      }
       />
     </Fragment>
   );
@@ -59,10 +61,11 @@ const MainContent = ({
 
 
 const App = () => {
+  console.log("redernsdf");
   const [isHomeActive, setIsHomeActive] = useState(true);
   const [isSettingsActive, setIsSettingsActive] = useState(false);
 
-  const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.8580, longitude: 72.4140 });
+  const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.976, longitude: 72.4140 });
   const [selectedLocationInfo, setSelectedLocationInfo] = useState({
     cityName: 'Kamra',
     countryCode: 'PK'
@@ -76,7 +79,7 @@ const App = () => {
       identifier: "temperature_unit",
       options: [
         { value: 'celsius', displayText: "Celcius", active: true },
-        { value: 'fahrenheit', displayText: "Fahrenhote", active: false },
+        { value: 'fahrenheit', displayText: "Fahrenheit", active: false },
       ]
     },
     {
@@ -116,7 +119,9 @@ const App = () => {
     if (cordinates.latitude === null || cordinates.longitude === null) {
       return;
     }
+    console.log(`Setting location cordinates to ${cordinates.latitude}, ${cordinates.longitude}`);
     setSelectedLocationCords(cordinates);
+    console.log(selectedLocationCords, cordinates);
   }
 
   const setLocationData = (locationData) => {
@@ -141,14 +146,14 @@ const App = () => {
   const updateForecastData = (response) => {
     const currentHourData = response.hourly.time.map((timestamp, index) => {
       const time = new Date(timestamp * 1000); // Convert UNIX timestamp to JavaScript Date
-      if((time.getHours() === new Date().getHours()) && (time.getDate() === new Date().getDate())) {
+      if ((time.getHours() === new Date().getHours()) && (time.getDate() === new Date().getDate())) {
         return {
           precipitation_probability: response.hourly.precipitation_probability[index],
           humidity: response.hourly.relativehumidity_2m[index],
           feelsLike: response.hourly.apparent_temperature[index],
         };
       }
-      else{
+      else {
         return null;
       }
     }).filter((item) => item != null)[0];
@@ -170,12 +175,11 @@ const App = () => {
     });
     const dailyForecast = response.daily.time.map((timestamp, index) => {
       const wmoCode = response.hourly.weathercode[index]
-      const time = new Date(timestamp * 1000); // Convert UNIX timestamp to JavaScript Date
-      const isDay = time.getHours() >= 6 && time.getHours() < 18; // Assuming daytime is between 6 AM and 6 PM  
+      const isDay = true;
       const { iconSrc, description } = getIconSrcAndDesc(wmoCode, isDay);
 
       return {
-        time: time,
+        time: new Date(timestamp * 1000),
         temperature_2m_max: response.daily.temperature_2m_max[index],
         temperature_2m_min: response.daily.temperature_2m_min[index],
         precipitation_probability_max: response.daily.precipitation_probability_max[index],
@@ -199,52 +203,64 @@ const App = () => {
     };
 
     setForecastData({
-        hourlyForecast: hourlyForecast,
-        dailyForecast: dailyForecast,
-        currentWeather: currentWeather
-      })
+      hourlyForecast: hourlyForecast,
+      dailyForecast: dailyForecast,
+      currentWeather: currentWeather
+    })
   }
 
-  // updating only when selectedLocationCords or units changes
+  // Effect for units changes
   useEffect(() => {
     if (JSON.stringify(units) !== JSON.stringify(currentUnits)) {
       setCurrentUnits(units);
-      API.getForecast(selectedLocationCords.latitude, selectedLocationCords.longitude, updateForecastData, units);
     }
-  }, [currentUnits, selectedLocationCords, units]);
+  }, [currentUnits, units]);
+
+  // Effect for selectedLocationCords changes
+  useEffect(() => {
+    setForecastData(null);
+    API.getForecast(
+      selectedLocationCords.latitude,
+      selectedLocationCords.longitude,
+      updateForecastData,
+      currentUnits
+    );
+  }, [selectedLocationCords, currentUnits]);
+
 
   return (
     <div className="container-fluid">
       <div className="row">
         <div className='col-md-1'>
-          <NavigationSidebar 
-            isHomeActive={isHomeActive} 
-            isSettingsActive={isSettingsActive} 
-            setActiveSection={handleSectionActivation} 
+          <NavigationSidebar
+            isHomeActive={isHomeActive}
+            isSettingsActive={isSettingsActive}
+            setActiveSection={handleSectionActivation}
           />
         </div>
 
         {
-          isHomeActive ? (
-            <div className='col-md-11'>
-              <MainContent
-                selectedLocationCords={selectedLocationCords}
-                selectedLocationInfo={selectedLocationInfo}
-                setLocationCordinates={setLocationCordinates}
-                setLocationData={setLocationData}
-                forecastData={forecastData}
-                units={units}
-              />
-            </div>
-          ) : (
-            <div className='col-md-8' style={{ marginTop: '20px' }}>
-              <Settings
-                settingsObject={settingsObject}
-              />
-            </div>
+          !forecastData ? <Preloader /> : (
+            isHomeActive ? (
+              <div className='col-md-11 main-content'>
+                <MainContent
+                  selectedLocationCords={selectedLocationCords}
+                  selectedLocationInfo={selectedLocationInfo}
+                  setLocationCordinates={setLocationCordinates}
+                  setLocationData={setLocationData}
+                  forecastData={forecastData}
+                  units={units}
+                />
+              </div>
+            ) : (
+              <div className='col-md-8 settings-div' style={{ marginTop: '20px' }}>
+                <Settings
+                  settingsObject={settingsObject}
+                />
+              </div>
+            )
           )
         }
-
       </div>
     </div>
   );
