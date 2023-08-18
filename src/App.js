@@ -199,7 +199,7 @@ const App = () => {
       "windspeed": response.current_weather.windspeed,
       "winddirection": response.current_weather.winddirection,
       iconSrc,
-      description
+      description,
 
     };
 

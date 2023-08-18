@@ -12,7 +12,8 @@ const CurrentWeather = (props) => {
       <div className="row">
         <div className="col-md-8">
           {
-            showLocation && (<div className="row mb-3">
+            showLocation && countryCode && (
+            <div className="row mb-3">
               <h2 className="white-text" style={{ fontWeight: '600' }}>
                 <span>{cityName}</span>
                 <sub style={{ marginLeft: '5px', fontSize: '12px' }}>
@@ -26,7 +27,8 @@ const CurrentWeather = (props) => {
                   {countryCode}
                   </sub>
               </h2>
-            </div>)
+            </div>
+            )
           }
           <div className="row mb-3">
             <h3 className="white-text">
