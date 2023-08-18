@@ -9,6 +9,7 @@ const DailyForecastDetailsOverlay = ({ weatherForecast, hourlyForecast, units, o
   return (
     <div className="overlay">
       <div className="overlay-content col-md-11">
+        <button onClick={onClose} className="button close-button gray-bg">x</button>
         <div className='white-text'>
           <h3>Forecast for {weatherForecast.time.toLocaleDateString()}</h3>
         </div>
@@ -36,6 +37,7 @@ const DailyForecastDetailsOverlay = ({ weatherForecast, hourlyForecast, units, o
         <button className="button" onClick={onClose}>
           Close
         </button>
+
       </div>
     </div>
   );
