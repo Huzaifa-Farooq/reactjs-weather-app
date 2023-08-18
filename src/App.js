@@ -7,7 +7,6 @@ import NavigationSidebar from './components/NavigationSidebar';
 import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import Settings from './components/Settings';
-import Preloader from './components/Preloader';
 
 import { getIconSrcAndDesc, unitsMap } from './utils'
 import API from './api/api';
@@ -183,6 +182,9 @@ const App = () => {
         temperature_2m_max: response.daily.temperature_2m_max[index],
         temperature_2m_min: response.daily.temperature_2m_min[index],
         precipitation_probability_max: response.daily.precipitation_probability_max[index],
+        windspeed_10m_max: response.daily.windspeed_10m_max[index],
+        apparent_temperature_max: response.daily.apparent_temperature_max[index],
+        apparent_temperature_min: response.daily.apparent_temperature_min[index],
         iconSrc,
         description
       };
@@ -240,7 +242,7 @@ const App = () => {
         </div>
 
         {
-          !forecastData ? <Preloader /> : (
+          
             isHomeActive ? (
               <div className='col-md-11 main-content'>
                 <MainContent
@@ -259,7 +261,7 @@ const App = () => {
                 />
               </div>
             )
-          )
+          
         }
       </div>
     </div>

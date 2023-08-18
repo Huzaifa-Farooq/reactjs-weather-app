@@ -15,7 +15,6 @@ import '../css/weather-icons-wind.min.css'
 
 
 const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitationProbability, feelsLike, units }) => {
-  console.log(units);
   const weatherDetails = [
     { title: 'Temperature', value: `${temperature} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
     { title: 'Feels like', value: `${feelsLike} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
@@ -26,6 +25,7 @@ const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitation
       iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
     },
   ];
+
   return (
     <div style={{ marginTop: '10px' }} className='gray-bg rounded-div mb-3'>
       <div className='forcast-name'>
@@ -34,17 +34,19 @@ const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitation
       <div className='container'>
         <div className='row'>
           {weatherDetails.map((item, index) => {
-            return (
-              <div className='col-md-4 col-sm-6' style={{ marginBottom: '10px' }}>
-                <CurrentWeatherDetailItem
-                  key={index}
-                  title={item.title}
-                  value={item.value}
-                  iconName={item.iconName}
-                  iconElement={item.iconElement}
-                />
-              </div>
-            );
+            if (item.value !== undefined && !item.value.includes("undefined")) {
+              return (
+                <div className='col-md-4 col-sm-6' style={{ marginBottom: '10px' }}>
+                  <CurrentWeatherDetailItem
+                    key={index}
+                    title={item.title}
+                    value={item.value}
+                    iconName={item.iconName}
+                    iconElement={item.iconElement}
+                  />
+                </div>
+              );
+            }
           })
           }
         </div>

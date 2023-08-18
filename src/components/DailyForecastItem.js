@@ -1,6 +1,11 @@
 const DailyForecastItem = (props) => {
+
+  const handleClick = (time) => {
+    props.handleDailyForecastClick(time);
+  }
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div onClick={() => handleClick(props.time)} className="daily-forecast-item">
       <div className="center-text">
         <span className='gray-text'>{props.day}</span>
       </div>

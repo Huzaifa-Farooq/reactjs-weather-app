@@ -5,14 +5,18 @@ import HourlyForecast from './HourlyForecast';
 import CurrentWeather from './CurrentWeather';
 import DailyForecast from './DailyForecast';
 import CurrentWeatherDetails from './CurrentWeatherDetails';
+import Preloader from './Preloader';
 
 
 
 const WeatherForecast = (props) => {
   const forecastData = props.forecastData;
 
+    // Next 24 hours starting from current hour
+  const currentDate = new Date();
+
   if (!forecastData) {
-    return null;
+    return <Preloader />
   }
   else {
     return (
@@ -31,10 +35,13 @@ const WeatherForecast = (props) => {
             feelsLike={forecastData.currentWeather.feelsLike}
             units={props.units}
           />
-          <HourlyForecast hourlyForecast={forecastData.hourlyForecast} units={props.units} />
+          <HourlyForecast 
+            hourlyForecast={forecastData.hourlyForecast.filter(data => data.time >= currentDate).slice(0, 24)} 
+            units={props.units} 
+          />
         </div>
         <div className='col-md-3'>
-          <DailyForecast dailyForecast={forecastData.dailyForecast} units={props.units} />
+          <DailyForecast dailyForecast={forecastData.dailyForecast} hourlyForecast={forecastData.hourlyForecast} units={props.units} />
         </div>
       </div>
     ) 

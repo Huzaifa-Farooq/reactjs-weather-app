@@ -7,10 +7,10 @@ const HourlyForecastItem = ({ time, iconSrc, temperature, description, precipita
       <div className="forecast-icon-div">
         <img src={iconSrc} alt={description} />
       </div>
-      <div className="center-text">
-        <span className="white-text">{temperature}</span><br />
-        <span className="white-text">{description}</span><br />
-        <span className="white-text">{precipitation_probability}</span>
+      <div className="center-text white-text">
+        <div><span >{temperature}</span></div>
+        <div><span >{description}</span></div>
+        <div><span >{precipitation_probability}</span></div>
       </div>
     </div>
   );

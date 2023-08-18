@@ -5,17 +5,20 @@ const CurrentWeather = (props) => {
   const countryCode = props.selectedLocationInfo.countryCode;
 
   const units = props.units;
+  const showLocation = props.showLocation || true;
 
   return (
     <div>
       <div className="row">
         <div className="col-md-8">
-          <div className="row mb-3">
-            <h2 className="white-text" style={{ fontWeight: '600' }}>
-              <span>{cityName}</span>
-              <sub style={{ marginLeft: '5px', fontSize: '12px' }}>{countryCode}</sub>
-            </h2>
-          </div>
+          {
+            showLocation && (<div className="row mb-3">
+              <h2 className="white-text" style={{ fontWeight: '600' }}>
+                <span>{cityName}</span>
+                <sub style={{ marginLeft: '5px', fontSize: '12px' }}>{countryCode}</sub>
+              </h2>
+            </div>)
+          }
           <div className="row mb-3">
             <h3 className="white-text">
               <span>{currentWeather.description}</span>
