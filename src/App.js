@@ -60,13 +60,12 @@ const MainContent = ({
 
 
 const App = () => {
-  console.log("redernsdf");
   const [isHomeActive, setIsHomeActive] = useState(true);
   const [isSettingsActive, setIsSettingsActive] = useState(false);
 
   const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.976, longitude: 72.4140 });
   const [selectedLocationInfo, setSelectedLocationInfo] = useState({
-    cityName: 'Kamra',
+    cityName: 'Kamra, Attock, Pakistan',
     countryCode: 'PK'
   }); // [cityName, subTitle]
   const [forecastData, setForecastData] = useState(null);

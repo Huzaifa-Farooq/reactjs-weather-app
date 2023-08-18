@@ -15,7 +15,16 @@ const CurrentWeather = (props) => {
             showLocation && (<div className="row mb-3">
               <h2 className="white-text" style={{ fontWeight: '600' }}>
                 <span>{cityName}</span>
-                <sub style={{ marginLeft: '5px', fontSize: '12px' }}>{countryCode}</sub>
+                <sub style={{ marginLeft: '5px', fontSize: '12px' }}>
+                  &nbsp;
+                  <img 
+                    src={`https://hatscripts.github.io/circle-flags/flags/${countryCode.toLowerCase()}.svg`} 
+                    width={18} 
+                    height={18}
+                  />
+                  &nbsp;
+                  {countryCode}
+                  </sub>
               </h2>
             </div>)
           }
