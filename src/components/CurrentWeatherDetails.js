@@ -4,17 +4,11 @@ import { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faWind,
-  // water drop
   faTint,
 } from '@fortawesome/free-solid-svg-icons'
 
-import '../css/weather-icons.css'
-import '../css/weather-icons.min.css'
-import '../css/weather-icons-wind.css'
-import '../css/weather-icons-wind.min.css'
 
-
-const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitationProbability, feelsLike, units }) => {
+const CurrentWeatherDetails = ({ temperature, windSpeed, precipitationSum, humidity, precipitationProbability, feelsLike, units }) => {
   const weatherDetails = [
     { title: 'Temperature', value: `${temperature} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
     { title: 'Feels like', value: `${feelsLike} ${units.temperature_unit}`, iconName: 'wi wi-thermometer' },
@@ -24,6 +18,10 @@ const CurrentWeatherDetails = ({ temperature, windSpeed, humidity, precipitation
       title: 'Chance of rain', value: `${precipitationProbability}%`,
       iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
     },
+    {
+      title: "Precipitation", value: `${precipitationSum} ${units.precipitation_unit}`,
+      iconElement: <FontAwesomeIcon fontSize={22} className='gray-text' icon={faTint} />
+    }
   ];
 
   return (

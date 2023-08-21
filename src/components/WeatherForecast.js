@@ -32,6 +32,7 @@ const WeatherForecast = (props) => {
             windSpeed={forecastData.currentWeather.windspeed}
             humidity={forecastData.currentWeather.humidity}
             precipitationProbability={forecastData.currentWeather.precipitation_probability}
+            precipitationSum={forecastData.currentWeather.precipitation_sum}
             feelsLike={forecastData.currentWeather.feelsLike}
             units={props.units}
           />

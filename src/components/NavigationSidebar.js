@@ -1,33 +1,41 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSliders, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faSliders, faHome, faClock } from '@fortawesome/free-solid-svg-icons'
 
 import React, { useState } from 'react';
 
 
-const NavigationSidebar = ({ isHomeActive, isSettingsActive, setActiveSection }) => {
+
+
+const NavigationSidebar = ({ activeSectionName, setActiveSection }) => {
+
+  const options = [
+    { name: 'home', title: 'Home', icon: faHome },
+    { name: 'historical-data', title: 'Historical', icon: faClock },
+    { name: 'settings', title: 'Settings', icon: faSliders },
+  ]
+
   return (
-    <div className="text-light sidebar gray-bg rounded-div" 
+    <div className="text-light sidebar gray-bg rounded-div"
       style={{ padding: '10px 0px 10px 0px', marginBottom: '10px', width: '90px', backgroundColor: 'none', position: 'fixed' }}>
       <nav className="navbar">
         <div className="position-sticky">
           <ul className="nav flex-column">
-            <li className="center-text nav-item">
-              <a className={isHomeActive ? "nav-link active white-text" : "nav-link gray-text"} href="#" aria-disabled={isHomeActive}
-                onClick={() => setActiveSection('home')}
-              >
-              <FontAwesomeIcon icon={faHome} className='' /><br />
-                  <span>Home</span>
-              </a>
-            </li>
-            <li className="center-text nav-item">
-              <a
-               className={isSettingsActive ? "nav-link active white-text" : "nav-link gray-text"} href="#" aria-disabled={isSettingsActive}
-               onClick={() => setActiveSection('settings')}
-               >
-                <FontAwesomeIcon icon={faSliders} className='' /><br />
-                <span>Settings</span>
-              </a>
-            </li>
+            {
+              options.map((option, index) => {
+                const isActive = activeSectionName === option.name;
+                return (
+                  <li className="center-text nav-item" key={index}>
+                    <a className={isActive ? "nav-link active white-text" : "nav-link gray-text"} href="#" aria-disabled={isActive}
+                      onClick={() => setActiveSection(option.name)}
+                    >
+                      <FontAwesomeIcon icon={option.icon} className='' /><br />
+                      <span>{option.title}</span>
+                    </a>
+                  </li>
+                );
+              }
+              )
+            }
           </ul>
         </div>
       </nav>

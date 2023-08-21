@@ -1,12 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { useState, useEffect, useCallback, useRef, Fragment } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo, Fragment } from 'react';
 
 import NavigationSidebar from './components/NavigationSidebar';
 import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import Settings from './components/Settings';
+import DailyHistorial from './components/DailyHistorial';
 
 import { getIconSrcAndDesc, unitsMap } from './utils'
 import API from './api/api';
@@ -17,6 +18,7 @@ import './css/weather-icons.css'
 import './css/weather-icons.min.css'
 import './css/weather-icons-wind.css'
 import './css/weather-icons-wind.min.css'
+
 import Cookies from 'js-cookie';
 
 
@@ -60,8 +62,7 @@ const MainContent = ({
 
 
 const App = () => {
-  const [isHomeActive, setIsHomeActive] = useState(true);
-  const [isSettingsActive, setIsSettingsActive] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.976, longitude: 72.4140 });
   const [selectedLocationInfo, setSelectedLocationInfo] = useState({
@@ -127,19 +128,11 @@ const App = () => {
   }
 
   const handleSectionActivation = (opt) => {
-    switch (opt) {
-      case 'home':
-        setIsHomeActive(true);
-        setIsSettingsActive(false);
-        break;
-      case 'settings':
-        setIsHomeActive(false);
-        setIsSettingsActive(true);
-        break;
-      default:
-        break;
+    if (opt != activeSection){
+      setActiveSection(opt);
     }
   }
+
 
   const updateForecastData = (response) => {
     const currentHourData = response.hourly.time.map((timestamp, index) => {
@@ -210,6 +203,47 @@ const App = () => {
     })
   }
 
+  const getActiveSection = () => {
+    const opt = activeSection;
+    if (opt === 'home') {
+      return (
+        <div className='col-md-11 main-content'>
+          <MainContent
+            selectedLocationCords={selectedLocationCords}
+            selectedLocationInfo={selectedLocationInfo}
+            setLocationCordinates={setLocationCordinates}
+            setLocationData={setLocationData}
+            forecastData={forecastData}
+            units={units}
+          />
+        </div>
+      );
+    }
+    else if (opt === 'settings') {
+      return (
+        <div className='col-md-8 settings-div' style={{ marginTop: '20px' }}>
+          <Settings
+            settingsObject={settingsObject}
+          />
+        </div>
+      )
+    }
+    else if (opt === 'historical-data') {
+      return (
+        <div className='col-md-11 main-content'>
+          <DailyHistorial
+            latitude={selectedLocationCords.latitude}
+            longitude={selectedLocationCords.longitude}
+            startDate={new Date('2023-08-01')}
+            endDate={new Date('2023-08-20')}
+            units={currentUnits}
+          />
+        </div>
+      )
+    }
+  }
+
+
   // Effect for units changes
   useEffect(() => {
     if (JSON.stringify(units) !== JSON.stringify(currentUnits)) {
@@ -226,41 +260,19 @@ const App = () => {
       updateForecastData,
       currentUnits
     );
-  }, [selectedLocationCords, currentUnits]);
-
+  }, [selectedLocationCords, currentUnits]); 
 
   return (
     <div className="container-fluid">
       <div className="row">
         <div className='col-md-1'>
           <NavigationSidebar
-            isHomeActive={isHomeActive}
-            isSettingsActive={isSettingsActive}
+            activeSectionName={activeSection}
             setActiveSection={handleSectionActivation}
           />
         </div>
-
         {
-          
-            isHomeActive ? (
-              <div className='col-md-11 main-content'>
-                <MainContent
-                  selectedLocationCords={selectedLocationCords}
-                  selectedLocationInfo={selectedLocationInfo}
-                  setLocationCordinates={setLocationCordinates}
-                  setLocationData={setLocationData}
-                  forecastData={forecastData}
-                  units={units}
-                />
-              </div>
-            ) : (
-              <div className='col-md-8 settings-div' style={{ marginTop: '20px' }}>
-                <Settings
-                  settingsObject={settingsObject}
-                />
-              </div>
-            )
-          
+          getActiveSection()
         }
       </div>
     </div>
