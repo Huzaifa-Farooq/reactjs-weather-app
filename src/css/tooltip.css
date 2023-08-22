@@ -1,0 +1,11 @@
+.custom-tooltip {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  max-width: 400px;
+}
+
+.label {
+  font-weight: bold;
+  text-decoration: underline;
+}

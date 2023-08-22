@@ -18,8 +18,8 @@ import './css/weather-icons.css'
 import './css/weather-icons.min.css'
 import './css/weather-icons-wind.css'
 import './css/weather-icons-wind.min.css'
-import 'react-day-picker/dist/style.css';
 
+import 'react-day-picker/dist/style.css';
 
 import Cookies from 'js-cookie';
 

@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 import { DayPicker } from 'react-day-picker';
-// import '../styles/style.css'
+import '../css/tooltip.css'
 
 import API from '../api/api';
 
@@ -22,15 +22,13 @@ const CustomTooltip = ({ active, payload, label }) => {
             label = label.toLocaleDateString();
         }
         return (
-            <div className="custom-tooltip" style={{ width: '200px' }}>
-                <p className="label" style={{ color: 'white' }} >{label}</p>
+            <div className="custom-tooltip gray-bg white-text" >
+                <span className="label">{label}</span>
                 <div>
                     {
                         payload.map((pld) => {
                             return (
-                                <div style={{ display: "inline-block", fontSize: '12px' }}>
-                                    <div style={{ color: pld.fill }}>{pld.dataKey}: {pld.value}</div>
-                                </div>
+                                <><span style={{ color: pld.fill }}>{pld.dataKey}: {pld.value}</span><br /></>
                             );
                         })
                     }
@@ -71,17 +69,18 @@ class DailyHistorial extends React.Component {
             'temperature_2m_max',
             'temperature_2m_min',
             'temperature_2m_mean',
-            // 'apparent_temperature_max', 
-            // 'apparent_temperature_min',
-            // 'apparent_temperature_mean'
+            'apparent_temperature_max', 
+            'apparent_temperature_min',
+            'apparent_temperature_mean'
         ];
         this.temperatureParamsColors = {
             'temperature_2m_max': '#ff0000',
             'temperature_2m_min': '#00ff00',
             'temperature_2m_mean': '#0000ff',
-            'apparent_temperature_max': '#ff0000',
-            'apparent_temperature_min': '#00ff00',
-            'apparent_temperature_mean': '#0000ff'
+            // different colors
+            'apparent_temperature_max': '#ff00ff',
+            'apparent_temperature_min': '#00ffff',
+            'apparent_temperature_mean': '#ffff00'
         }
         this.fieldsTitles = {
             'time': 'Time',
@@ -101,7 +100,9 @@ class DailyHistorial extends React.Component {
             endDate: new Date(new Date().setDate(new Date().getDate() - 7)),
             showStartDatePicker: false,
             showEndDatePicker: false,
-            selectedTemepratureParams: this.temperatureParams.map((param) => { return { "name": param, "selected": true } })
+            selectedTemepratureParams: this.temperatureParams.map(
+                (param) => { return { "name": param, "selected": !param.includes("apparent") } }
+                )
         }
     }
 
@@ -241,7 +242,7 @@ class DailyHistorial extends React.Component {
                             <div className="form-row row mb-3">
                                 {
                                     this.state.selectedTemepratureParams.map((param) => (
-                                        <div className="form-check col-md-3">
+                                        <div className="form-check col-md-4">
                                             <input
                                                 onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
                                                 className="form-check-input"
@@ -304,7 +305,7 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
             <YAxis />
             <Legend />
             {
-                temperatureParams.map((param, index) => {
+                temperatureParams.map((param) => {
                     return (
                         <Line
                             type="monotone"
