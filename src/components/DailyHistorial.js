@@ -11,49 +11,10 @@ import {
 } from "recharts";
 
 import { DayPicker } from 'react-day-picker';
-// import 'react-day-picker/dist/style.css';
+// import '../styles/style.css'
 
 import API from '../api/api';
 
-
-const styles = {
-    'rdp': string
-,    'rdp-vhidden': string,
-    'rdp-button_reset': string,
-    'rdp-button': string,
-    'rdp-day_selected': string,
-    'rdp-months': string,
-    'rdp-month': string,
-    'rdp-table': string,
-    'rdp-with_weeknumber': string,
-    'rdp-caption': string,
-    'rdp-multiple_months': string,
-    'rdp-caption_dropdowns': string,
-    'rdp-caption_label': string,
-    'rdp-nav': string,
-    'rdp-caption_start': string,
-    'rdp-caption_end': string,
-    'rdp-nav_button': string,
-    'rdp-dropdown_year': string,
-    'rdp-dropdown_month': string,
-    'rdp-dropdown': string,
-    'rdp-dropdown_icon': string,
-    'rdp-head': string,
-    'rdp-head_row': string,
-    'rdp-row': string,
-    'rdp-head_cell': string,
-    'rdp-tbody': string,
-    'rdp-tfoot': string,
-    'rdp-cell': string,
-    'rdp-weeknumber': string,
-    'rdp-day': string,
-    'rdp-day_today': string,
-    'rdp-day_outside': string,
-    'rdp-day_range_start': string,
-    'rdp-day_range_end': string,
-    'rdp-day_range_middle': string
-  };
-  
 
 const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -82,6 +43,22 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 
+const formatDateFormat = (date) => {
+    // date in YYYY-MM-DD format without using toISO
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
 class DailyHistorial extends React.Component {
     constructor(props) {
         super(props);
@@ -98,10 +75,14 @@ class DailyHistorial extends React.Component {
             // 'apparent_temperature_min',
             // 'apparent_temperature_mean'
         ];
-        this.temperatureParamsColors = [
-            '#ff0000', '#00ff00', '#0000ff',
-            '#ff0000', '#00ff00', '#0000ff'
-        ];
+        this.temperatureParamsColors = {
+            'temperature_2m_max': '#ff0000',
+            'temperature_2m_min': '#00ff00',
+            'temperature_2m_mean': '#0000ff',
+            'apparent_temperature_max': '#ff0000',
+            'apparent_temperature_min': '#00ff00',
+            'apparent_temperature_mean': '#0000ff'
+        }
         this.fieldsTitles = {
             'time': 'Time',
             'precipitation_sum': 'Precipitation',
@@ -117,7 +98,10 @@ class DailyHistorial extends React.Component {
         this.state = {
             historicalData: null,
             startDate: new Date(new Date().setDate(new Date().getDate() - 21)),
-            endDate: new Date(new Date().setDate(new Date().getDate() - 7))
+            endDate: new Date(new Date().setDate(new Date().getDate() - 7)),
+            showStartDatePicker: false,
+            showEndDatePicker: false,
+            selectedTemepratureParams: this.temperatureParams.map((param) => { return { "name": param, "selected": true } })
         }
     }
 
@@ -129,7 +113,7 @@ class DailyHistorial extends React.Component {
         const currEndDate = this.state.endDate;
         const prevStartDate = prevState.startDate;
         const prevEndDate = prevState.endDate;
-        
+
         // if currendDate is greater than currstartDate
         if (currEndDate <= currStartDate) {
             return;
@@ -147,8 +131,8 @@ class DailyHistorial extends React.Component {
         API.getDailyHistoricalData(
             latitude,
             longitude,
-            startDate,
-            endDate,
+            formatDateFormat(startDate),
+            formatDateFormat(endDate),
             this.dailyParams.filter((param) => param != 'time'),
             this.handleHistorialData,
             units
@@ -190,45 +174,100 @@ class DailyHistorial extends React.Component {
         });
     }
 
+    handleSelectedTemperatureParamsChange = (name, selected) => {
+        const newParams = this.state.selectedTemepratureParams.map((param) => {
+            if (param.name === name) {
+                param.selected = !selected;
+            }
+            return param;
+        });
+
+        this.setState({
+            selectedTemepratureParams: newParams
+        });
+    }
+
     render() {
         const data = this.state.historicalData;
         const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
+        const selectedTemperatureParams = this.state.selectedTemepratureParams.filter((param) => param.selected);
+
         return (
             <Fragment>
-                <div className="row">
-                    <div className="white-text col-md-3">
-                    <DayPicker
-                        mode="single"
-                        selected={this.state.startDate}
-                        onSelect={this.handleStartDateChange}
-                        toDate={yesterday}
-                        footer={<p>Start Date</p>}
-                    />
-                    </div>
-                    <div className="col-md-1"></div>
-                    <div className=" white-text col-md-3">
+                <div style={{ marginLeft: '30px' }}>
+                    <div className="white-text">
+                        <form className="form">
+                            <div className="form-row row mb-3">
+                                <div className="form-group col-md-2">
+                                    <label htmlFor="startDate" className="form-label">Start Date: </label>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        onChange={() => { }}
+                                        value={this.state.startDate.toISOString().split('T')[0]}
+                                        onClick={() => this.setState({ showStartDatePicker: !this.state.showStartDatePicker })}
+                                    />
+                                    {
+                                        this.state.showStartDatePicker && (
+                                            <DayPicker
+                                                mode="single"
+                                                selected={this.state.startDate}
+                                                onSelect={this.handleStartDateChange}
+                                                toDate={yesterday}
+                                            />
+                                        )
+                                    }
+                                </div>
+                                <div className="form-group col-md-2">
+                                    <label htmlFor="endDate" className="form-label">End Date: </label>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        onChange={() => { }}
+                                        value={formatDateFormat(this.state.endDate)}
+                                        onClick={() => this.setState({ showEndDatePicker: !this.state.showEndDatePicker })}
+                                    />
+                                    {this.state.showEndDatePicker && (
+                                        <DayPicker
+                                            mode="single"
+                                            selected={this.state.endDate}
+                                            toDate={yesterday}
+                                            onSelect={this.handleEndDateChange}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                            <div className="form-row row mb-3">
+                                {
+                                    this.state.selectedTemepratureParams.map((param) => (
+                                        <div className="form-check col-md-3">
+                                            <input
+                                                onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                value=""
+                                                checked={param.selected}
+                                            />
+                                            <label className="form-check-label">{param.name}</label>
+                                        </div>
+                                    ))
+                                }
 
-                    <DayPicker
-                        mode="single"
-                        selected={this.state.endDate}
-                        toDate={yesterday}
-                        onSelect={this.handleEndDateChange}
-                        footer={<p>End Date</p>}
-                    />
-                        
+                            </div>
+                        </form>
+
                     </div>
                 </div>
                 <div className="gray-bg">
-                    <div>dsfsdfsd</div>
                     <div className="dark-bg">
-                    {
-                        data && <DailyHistoricalChart
-                            data={data}
-                            temperatureParams={this.temperatureParams}
-                            temperatureParamsColors={this.temperatureParamsColors}
-                        />
-                    }
+                        {
+                            data && <DailyHistoricalChart
+                                data={data}
+                                temperatureParams={selectedTemperatureParams.map((param) => param.name)}
+                                temperatureParamsColors={this.temperatureParamsColors}
+                            />
+                        }
                     </div>
                 </div>
             </Fragment>
@@ -270,7 +309,7 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
                         <Line
                             type="monotone"
                             dataKey={param}
-                            stroke={temperatureParamsColors[index]}
+                            stroke={temperatureParamsColors[param]}
                             activeDot={{ r: 4 }}
                             dot={false}
                         />
