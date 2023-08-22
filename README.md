@@ -16,6 +16,12 @@ Welcome to the Weather App! This ReactJS application leverages the [Open Meteo A
 
 6. **Persistent Unit Preferences:** Your selected units are saved in cookies, ensuring a consistent experience across visits.
 
+7. **Historical Weather Data:** View historical weather data for your selected location.
+
+8. **Search Locations:** Search for locations by name.
+
+<!-- Getting Started -->
+
 ## Installation
 
 1. Clone this repository to your local machine:
