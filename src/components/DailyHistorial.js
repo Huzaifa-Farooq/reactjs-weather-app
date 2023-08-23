@@ -207,7 +207,9 @@ class DailyHistorial extends React.Component {
                                         type="text"
                                         onChange={() => { }}
                                         value={this.state.startDate.toISOString().split('T')[0]}
-                                        onClick={() => this.setState({ showStartDatePicker: !this.state.showStartDatePicker })}
+                                        onClick={
+                                            () => this.setState({ showStartDatePicker: !this.state.showStartDatePicker, showEndDatePicker: false })
+                                        }
                                     />
                                     {
                                         this.state.showStartDatePicker && (
@@ -227,7 +229,7 @@ class DailyHistorial extends React.Component {
                                         type="text"
                                         onChange={() => { }}
                                         value={formatDateFormat(this.state.endDate)}
-                                        onClick={() => this.setState({ showEndDatePicker: !this.state.showEndDatePicker })}
+                                        onClick={() => this.setState({ showEndDatePicker: !this.state.showEndDatePicker, showStartDatePicker: false })}
                                     />
                                     {this.state.showEndDatePicker && (
                                         <DayPicker
