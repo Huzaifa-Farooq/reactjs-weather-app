@@ -8,7 +8,7 @@ const CurrentWeather = (props) => {
   const showLocation = props.showLocation || true;
 
   return (
-    <div>
+    <div className="container">
       <div className="row">
         <div className="col-md-8">
           {

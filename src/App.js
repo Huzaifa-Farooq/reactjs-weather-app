@@ -265,9 +265,9 @@ const App = () => {
   }, [selectedLocationCords, currentUnits]); 
 
   return (
-    <div className="container-fluid">
+    <div className="">
       <div className="row">
-        <div className='col-md-1'>
+        <div className='col-md-1 nav-main-div'>
           <NavigationSidebar
             activeSectionName={activeSection}
             setActiveSection={handleSectionActivation}

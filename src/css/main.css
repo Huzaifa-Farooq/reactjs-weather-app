@@ -349,3 +349,36 @@ input[type="text"]:focus {
 .historical-chart-container {
   margin: 30px 0 0 0;
 }
+
+
+.navbar-div {
+  padding: 10px 0px 10px 0px;
+  margin-bottom: 10px;
+  background-color: none;
+  width: 80px;
+}
+
+/* on mobile */
+@media (max-width: 768px) {
+  .navbar-div {
+    height: 60px;
+    padding: 0px;
+    width: auto;
+  }
+  .nav-main-div {
+    margin: 0;
+    padding: 0;
+  }
+  ul.nav {
+    list-style-type: none !important;
+    list-style: none !important;
+  }
+  ul.nav > li {
+    width: 80px;
+  }
+
+  ul.nav > li a {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
