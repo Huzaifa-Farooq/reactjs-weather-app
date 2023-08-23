@@ -69,7 +69,7 @@ class DailyHistorial extends React.Component {
             'temperature_2m_max',
             'temperature_2m_min',
             'temperature_2m_mean',
-            'apparent_temperature_max', 
+            'apparent_temperature_max',
             'apparent_temperature_min',
             'apparent_temperature_mean'
         ];
@@ -102,7 +102,7 @@ class DailyHistorial extends React.Component {
             showEndDatePicker: false,
             selectedTemepratureParams: this.temperatureParams.map(
                 (param) => { return { "name": param, "selected": !param.includes("apparent") } }
-                )
+            )
         }
     }
 
@@ -196,9 +196,9 @@ class DailyHistorial extends React.Component {
 
         return (
             <Fragment>
-                <div style={{ marginLeft: '30px' }}>
+                <div style={{ marginLeft: '30px' }} className="row mb-3" >
                     <div className="white-text">
-                        <form className="form">
+                        <form className="form historical-form">
                             <div className="form-row row mb-3">
                                 <div className="form-group col-md-2">
                                     <label htmlFor="startDate" className="form-label">Start Date: </label>
@@ -246,13 +246,19 @@ class DailyHistorial extends React.Component {
                                     this.state.selectedTemepratureParams.map((param) => (
                                         <div className="form-check col-md-4">
                                             <input
-                                                onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
+                                                onClick={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
                                                 className="form-check-input"
                                                 type="checkbox"
                                                 value=""
                                                 checked={param.selected}
                                             />
-                                            <label className="form-check-label">{param.name}</label>
+                                            <label
+                                                className={`form-check-label ${!param.selected ? 'gray-text' : ''}`}
+                                                onClick={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
+
+                                            >
+                                                {param.name}
+                                            </label>
                                         </div>
                                     ))
                                 }
@@ -262,7 +268,8 @@ class DailyHistorial extends React.Component {
 
                     </div>
                 </div>
-                <div className="gray-bg">
+
+                <div className="gray-bg mb-3 historical-chart-container">
                     <div className="dark-bg">
                         {
                             data && <DailyHistoricalChart
