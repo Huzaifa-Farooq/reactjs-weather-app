@@ -356,6 +356,7 @@ input[type="text"]:focus {
   margin-bottom: 10px;
   background-color: none;
   width: 80px;
+  position: fixed;
 }
 
 /* on mobile */
@@ -364,6 +365,8 @@ input[type="text"]:focus {
     height: 60px;
     padding: 0px;
     width: auto;
+    position: sticky;
+
   }
   .nav-main-div {
     margin: 0;
