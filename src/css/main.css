@@ -252,8 +252,11 @@ nav a.nav-link:hover{
   outline: none;
 }
 
-.main-content {
+.animate__fadeInDown {
   animation: fadeInDown 0.5s ease forwards;
+}
+.animate__fadeInUp {
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 @keyframes fadeInDown {
@@ -267,9 +270,6 @@ nav a.nav-link:hover{
   }
 }
 
-.settings-div {
-  animation: fadeInUp 0.5s ease forwards;
-}
 @keyframes fadeInUp {
   0% {
     opacity: 0.4;

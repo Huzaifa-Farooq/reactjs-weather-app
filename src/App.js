@@ -64,7 +64,7 @@ const MainContent = ({
 
 
 const App = () => {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState({ prev: null, current: 'home' });
 
   const [selectedLocationCords, setSelectedLocationCords] = useState({ latitude: 33.976, longitude: 72.4140 });
   const [selectedLocationInfo, setSelectedLocationInfo] = useState({
@@ -120,9 +120,7 @@ const App = () => {
     if (cordinates.latitude === null || cordinates.longitude === null) {
       return;
     }
-    console.log(`Setting location cordinates to ${cordinates.latitude}, ${cordinates.longitude}`);
     setSelectedLocationCords(cordinates);
-    console.log(selectedLocationCords, cordinates);
   }
 
   const setLocationData = (locationData) => {
@@ -130,8 +128,8 @@ const App = () => {
   }
 
   const handleSectionActivation = (opt) => {
-    if (opt != activeSection){
-      setActiveSection(opt);
+    if (opt != activeSection) {
+      setActiveSection({ prev: activeSection.current, current: opt });
     }
   }
 
@@ -206,40 +204,54 @@ const App = () => {
   }
 
   const getActiveSection = () => {
-    const opt = activeSection;
+    const opt = activeSection.current;
+    const prevActiveSection = activeSection.prev;
+
+    const menuOrder = ['home', 'historical-data', 'settings'];
+    const fadeInDownAnimation = 'animate__fadeInDown';
+    const fadeInUpAnimation = 'animate__fadeInUp';
+
+    // determining animation class
+    let animationClass = fadeInDownAnimation;
+    if (prevActiveSection && menuOrder.indexOf(opt) > menuOrder.indexOf(prevActiveSection)) {
+      animationClass = fadeInUpAnimation;
+    }
+
+    console.log(opt, prevActiveSection, animationClass);
+
     if (opt === 'home') {
       return (
-        <div className='col-md-11 main-content'>
-          <MainContent
-            selectedLocationCords={selectedLocationCords}
-            selectedLocationInfo={selectedLocationInfo}
-            setLocationCordinates={setLocationCordinates}
-            setLocationData={setLocationData}
-            forecastData={forecastData}
-            units={units}
-          />
-        </div>
+        <div className={'col-md-11 forecast-container ' + animationClass}>
+            <MainContent
+              selectedLocationCords={selectedLocationCords}
+              selectedLocationInfo={selectedLocationInfo}
+              setLocationCordinates={setLocationCordinates}
+              setLocationData={setLocationData}
+              forecastData={forecastData}
+              units={units}
+            />
+          </div>
       );
     }
     else if (opt === 'settings') {
       return (
-        <div className='col-md-8 settings-div' style={{ marginTop: '20px' }}>
-          <Settings
-            settingsObject={settingsObject}
-          />
-        </div>
+        <div className={'col-md-8 settings-div ' + animationClass} style={{ marginTop: '20px' }}>
+            <Settings
+              settingsObject={settingsObject}
+            />
+          </div>
       )
     }
     else if (opt === 'historical-data') {
       return (
-        <div className='col-md-11 main-content'>
-          <DailyHistorial
-            latitude={selectedLocationCords.latitude}
-            longitude={selectedLocationCords.longitude}
-            startDate={new Date('2023-08-01')}
-            endDate={new Date('2023-08-20')}
-            units={currentUnits}
-          />
+        <div className={'col-md-11 daily-historical-container ' + animationClass}>
+            <DailyHistorial
+              latitude={selectedLocationCords.latitude}
+              longitude={selectedLocationCords.longitude}
+              startDate={new Date('2023-08-01')}
+              endDate={new Date('2023-08-20')}
+              units={currentUnits}
+            />
         </div>
       )
     }
@@ -262,7 +274,7 @@ const App = () => {
       updateForecastData,
       currentUnits
     );
-  }, [selectedLocationCords, currentUnits]); 
+  }, [selectedLocationCords, currentUnits]);
 
   return (
     <div className="">

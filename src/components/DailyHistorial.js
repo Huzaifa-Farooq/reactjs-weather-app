@@ -246,7 +246,7 @@ class DailyHistorial extends React.Component {
                                     this.state.selectedTemepratureParams.map((param) => (
                                         <div className="form-check col-md-4">
                                             <input
-                                                onClick={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
+                                                onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
                                                 className="form-check-input"
                                                 type="checkbox"
                                                 value=""
