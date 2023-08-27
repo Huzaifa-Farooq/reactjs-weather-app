@@ -7,7 +7,7 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    Label
 } from "recharts";
 
 import { DayPicker } from 'react-day-picker';
@@ -16,7 +16,7 @@ import '../css/tooltip.css'
 import API from '../api/api';
 
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload, label, tempUnit }) => {
     if (active && payload && payload.length) {
         if (label instanceof Date) {
             label = label.toLocaleDateString();
@@ -28,7 +28,7 @@ const CustomTooltip = ({ active, payload, label }) => {
                     {
                         payload.map((pld) => {
                             return (
-                                <><span style={{ color: pld.fill }}>{pld.dataKey}: {pld.value}</span><br /></>
+                                <><span style={{ color: pld.fill }}>{pld.dataKey}: {pld.value}{tempUnit}</span><br /></>
                             );
                         })
                     }
@@ -61,29 +61,7 @@ class DailyHistorial extends React.Component {
     constructor(props) {
         super(props);
 
-        this.dailyParams = [
-            'time', 'precipitation_sum', 'temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean',
-            'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean'
-        ]
-        this.temperatureParams = [
-            'temperature_2m_max',
-            'temperature_2m_min',
-            'temperature_2m_mean',
-            'apparent_temperature_max',
-            'apparent_temperature_min',
-            'apparent_temperature_mean'
-        ];
-        this.temperatureParamsColors = {
-            'temperature_2m_max': '#ff0000',
-            'temperature_2m_min': '#00ff00',
-            'temperature_2m_mean': '#0000ff',
-            // different colors
-            'apparent_temperature_max': '#ff00ff',
-            'apparent_temperature_min': '#00ffff',
-            'apparent_temperature_mean': '#ffff00'
-        }
         this.fieldsTitles = {
-            'time': 'Time',
             'precipitation_sum': 'Precipitation',
             'temperature_2m_max': 'Max Temperature',
             'temperature_2m_min': 'Min Temperature',
@@ -92,7 +70,27 @@ class DailyHistorial extends React.Component {
             'apparent_temperature_min': 'Min Apparent Temperature',
             'apparent_temperature_mean': 'Mean Apparent Temperature'
         }
-
+        this.dailyParams = [
+            'time', 'precipitation_sum', 'temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean',
+            'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean'
+        ]
+        this.temperatureParams = [
+            'Max Temperature',
+            'Min Temperature',
+            'Mean Temperature',
+            'Max Apparent Temperature',
+            'Min Apparent Temperature',
+            'Mean Apparent Temperature'
+        ];
+        this.temperatureParamsColors = {
+            'Max Temperature': '#ff0000',
+            'Min Temperature': '#00ff00',
+            'Mean Temperature': '#0000ff',
+            // different colors
+            'Max Apparent Temperature': '#ff00ff',
+            'Min Apparent Temperature': '#00ffff',
+            'Mean Apparent Temperature': '#ffff00'
+        }
 
         this.state = {
             historicalData: null,
@@ -101,7 +99,7 @@ class DailyHistorial extends React.Component {
             showStartDatePicker: false,
             showEndDatePicker: false,
             selectedTemepratureParams: this.temperatureParams.map(
-                (param) => { return { "name": param, "selected": !param.includes("apparent") } }
+                (param) => { return { "name": param, "selected": !param.includes("Apparent") } }
             )
         }
     }
@@ -147,7 +145,8 @@ class DailyHistorial extends React.Component {
             var obj = {};
             for (const param of this.dailyParams) {
                 if (param in response.daily) {
-                    obj[param] = response.daily[param][i];
+                    const key = this.fieldsTitles[param] || param;
+                    obj[key] = response.daily[param][i];
                 }
             }
             historicalData.push(obj);
@@ -198,6 +197,10 @@ class DailyHistorial extends React.Component {
             <Fragment>
                 <div style={{ marginLeft: '30px' }} className="row mb-3" >
                     <div className="white-text">
+                        <div className="mb-3">
+                            <h2>Historical Data</h2>
+                        </div>
+                        <hr style={{ width: '80%' }} />
                         <form className="form historical-form">
                             <div className="form-row row mb-3">
                                 <div className="form-group col-md-2">
@@ -249,6 +252,7 @@ class DailyHistorial extends React.Component {
                                                 onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
                                                 className="form-check-input"
                                                 type="checkbox"
+                                                style={{ backgroundColor: this.temperatureParamsColors[param.name] }}
                                                 value=""
                                                 checked={param.selected}
                                             />
@@ -276,6 +280,7 @@ class DailyHistorial extends React.Component {
                                 data={data}
                                 temperatureParams={selectedTemperatureParams.map((param) => param.name)}
                                 temperatureParamsColors={this.temperatureParamsColors}
+                                tempUnit={this.props.temperature_unit}
                             />
                         }
                     </div>
@@ -287,13 +292,17 @@ class DailyHistorial extends React.Component {
 }
 
 
-const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors }) => {
+const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors, tempUnit }) => {
     const dateFormatter = (date) => {
         return date.toLocaleDateString();
     };
 
+    console.log(data);
+
     return (
-        <LineChart
+        <div style={{ display: 'flex', flexDirection: 'column' }} >
+            <h3 className="white-text" style={{ margin: '0 auto 0 auto', marginBottom: '10px' }} >Temperature v/s Time</h3>
+            <LineChart
             width={1000}
             height={400}
             data={data}
@@ -310,8 +319,12 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
                 scale="time"
                 domain={['auto', 'auto']}
                 tickFormatter={dateFormatter}
-            />
-            <YAxis />
+            >
+            </XAxis>
+            <YAxis 
+                tickFormatter={(val) => (val + tempUnit)}
+            >
+            </YAxis>
             <Legend />
             {
                 temperatureParams.map((param) => {
@@ -326,8 +339,9 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
                     );
                 })
             }
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip tempUnit={tempUnit} />} />
         </LineChart>
+        </div>
     );
 }
 

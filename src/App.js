@@ -217,8 +217,6 @@ const App = () => {
       animationClass = fadeInUpAnimation;
     }
 
-    console.log(opt, prevActiveSection, animationClass);
-
     if (opt === 'home') {
       return (
         <div className={'col-md-11 forecast-container ' + animationClass}>
@@ -250,7 +248,8 @@ const App = () => {
               longitude={selectedLocationCords.longitude}
               startDate={new Date('2023-08-01')}
               endDate={new Date('2023-08-20')}
-              units={currentUnits}
+              units={units}
+              temperature_unit={unitsMap[units.temperature_unit]}
             />
         </div>
       )
