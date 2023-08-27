@@ -252,7 +252,6 @@ class DailyHistorial extends React.Component {
                                                 onChange={() => this.handleSelectedTemperatureParamsChange(param.name, param.selected)}
                                                 className="form-check-input"
                                                 type="checkbox"
-                                                style={{ backgroundColor: this.temperatureParamsColors[param.name] }}
                                                 value=""
                                                 checked={param.selected}
                                             />
