@@ -62,6 +62,28 @@ const formatDateFormat = (date) => {
 }
 
 
+
+const HistoricalTemperatureDetailsOverview = ({ overviewData }) => {
+    return (
+        <div className="white-text mb-3">
+            <div>
+                <h4>Overview</h4>
+            </div>
+            <div className="row">
+                    {
+                        overviewData.map((d) => {
+                            return (
+                                <div className="col-md-6">
+                                    <li>{d.key}: {d.value}</li>
+                                </div>
+                            )
+                        })
+                    }
+            </div>
+        </div>
+    );
+}
+
 class DailyHistorial extends React.Component {
     constructor(props) {
         super(props);
@@ -272,11 +294,23 @@ class DailyHistorial extends React.Component {
                                         </div>
                                     ))
                                 }
-
                             </div>
                         </form>
-
                     </div>
+
+                    {
+                        data && <HistoricalTemperatureDetailsOverview
+                        overviewData={
+                            this.temperatureParams.map((param) => {
+                                const maxValue = Math.max(...data.map(d => d[param]));
+                                const maxValIndex = data.findIndex(o => o[param] === maxValue);
+                                const maxValueDate = formatDateFormat(data[maxValIndex].time);
+                                return { key: param, value: `${maxValue} ${this.props.temperature_unit} (${maxValueDate})` };
+                            })
+                        }
+                    />
+                    }
+
                 </div>
 
                 <div className="gray-bg mb-3 historical-chart-container">
@@ -307,44 +341,44 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
         <div style={{ display: 'flex', flexDirection: 'column' }} >
             <h3 className="white-text" style={{ margin: '0 auto 0 auto', marginBottom: '10px' }} >Temperature v/s Time</h3>
             <LineChart
-            width={1000}
-            height={400}
-            data={data}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-            }}
-        >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-                dataKey='time'
-                scale="time"
-                domain={['auto', 'auto']}
-                tickFormatter={dateFormatter}
+                width={1000}
+                height={400}
+                data={data}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5
+                }}
             >
-            </XAxis>
-            <YAxis 
-                tickFormatter={(val) => (val + tempUnit)}
-            >
-            </YAxis>
-            <Legend />
-            {
-                temperatureParams.map((param) => {
-                    return (
-                        <Line
-                            type="monotone"
-                            dataKey={param}
-                            stroke={temperatureParamsColors[param]}
-                            activeDot={{ r: 4 }}
-                            dot={false}
-                        />
-                    );
-                })
-            }
-            <Tooltip content={<CustomTooltip tempUnit={tempUnit} />} />
-        </LineChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                    dataKey='time'
+                    scale="time"
+                    domain={['auto', 'auto']}
+                    tickFormatter={dateFormatter}
+                >
+                </XAxis>
+                <YAxis
+                    tickFormatter={(val) => (val + tempUnit)}
+                >
+                </YAxis>
+                <Legend />
+                {
+                    temperatureParams.map((param) => {
+                        return (
+                            <Line
+                                type="monotone"
+                                dataKey={param}
+                                stroke={temperatureParamsColors[param]}
+                                activeDot={{ r: 4 }}
+                                dot={false}
+                            />
+                        );
+                    })
+                }
+                <Tooltip content={<CustomTooltip tempUnit={tempUnit} />} />
+            </LineChart>
         </div>
     );
 }
