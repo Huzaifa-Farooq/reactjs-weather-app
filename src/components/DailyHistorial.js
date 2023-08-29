@@ -16,7 +16,7 @@ import { DayPicker } from 'react-day-picker';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-
+import Preloader from './Preloader';
 
 import API from '../api/api';
 
@@ -297,6 +297,10 @@ class DailyHistorial extends React.Component {
                             </div>
                         </form>
                     </div>
+
+                    {
+                        !data && <Preloader />
+                    }
 
                     {
                         data && <HistoricalTemperatureDetailsOverview

@@ -15,7 +15,7 @@ const NavigationSidebar = ({ activeSectionName, setActiveSection }) => {
   ]
 
   return (
-    <div className="text-light gray-bg rounded-div navbar-div">
+    <div className="text-light gray-bg rounded-div navbar-div animate__fadeInRight">
       <div className="position-sticky">
         <nav className="navbar">
           <ul className="nav">
