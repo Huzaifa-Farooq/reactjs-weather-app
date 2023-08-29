@@ -11,19 +11,17 @@
 .white-text {
   color: var(--white-text-color);
 }
-
-
-body {
-  background-color: var(--dark-bg);
-  padding: 20px;
-  font-family: 'Rubik', sans-serif;
-}
-
 .gray-bg {
   background-color: var(--div-light-bg);
 }
 .dark-bg {
   background-color: var(--dark-bg);
+}
+
+body {
+  background-color: var(--dark-bg);
+  padding: 20px;
+  font-family: 'Rubik', sans-serif;
 }
 
 .rounded-div {
@@ -60,7 +58,7 @@ body {
   border: none;
 }
 #location-search, #location-search::placeholder {
-  color: white;
+  color: var(--white-text-color);
 }
 #location-search:focus {
   background-color: var(--div-light-bg);
@@ -91,7 +89,6 @@ body {
   text-decoration-color: var(--gray-text-color);
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
-  
 }
 
 
@@ -324,7 +321,7 @@ nav a.nav-link:hover{
   box-shadow: 0 0 5px var(--gray-text-color);
 }
 
-
+/* historical */
 .rdp {
   animation: fadeInDown 1s ease forwards;
 }

@@ -280,7 +280,7 @@ const App = () => {
       <div className="row">
         <div className='col-md-1 nav-main-div'>
           <NavigationSidebar
-            activeSectionName={activeSection}
+            activeSectionName={activeSection.current}
             setActiveSection={handleSectionActivation}
           />
         </div>

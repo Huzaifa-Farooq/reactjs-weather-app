@@ -10,8 +10,13 @@ import {
     Label
 } from "recharts";
 
-import { DayPicker } from 'react-day-picker';
 import '../css/tooltip.css'
+
+import { DayPicker } from 'react-day-picker';
+import { faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+
 
 import API from '../api/api';
 
@@ -204,6 +209,7 @@ class DailyHistorial extends React.Component {
                         <form className="form historical-form">
                             <div className="form-row row mb-3">
                                 <div className="form-group col-md-2">
+                                    <FontAwesomeIcon icon={faCalendar} /> &nbsp;
                                     <label htmlFor="startDate" className="form-label">Start Date: </label>
                                     <input
                                         className="form-control"
@@ -226,6 +232,7 @@ class DailyHistorial extends React.Component {
                                     }
                                 </div>
                                 <div className="form-group col-md-2">
+                                    <FontAwesomeIcon icon={faCalendar} /> &nbsp;
                                     <label htmlFor="endDate" className="form-label">End Date: </label>
                                     <input
                                         className="form-control"
@@ -295,8 +302,6 @@ const DailyHistoricalChart = ({ data, temperatureParams, temperatureParamsColors
     const dateFormatter = (date) => {
         return date.toLocaleDateString();
     };
-
-    console.log(data);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }} >
