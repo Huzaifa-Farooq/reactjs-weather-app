@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faWind,
   faTint,
-  faChevronDown, faChevronUp,
+  faChevronUp,
 } from '@fortawesome/free-solid-svg-icons'
 
 import { formatTimeToAMPM } from '../utils';
@@ -49,7 +49,7 @@ const CurrentWeatherDetails = ({
         showExpandButton && (
         <button className='button-round button btn btn-sm btn-primary float-right' onClick={toggleDetails}>
           {expanded ? 'Hide Details' : 'Show Details'}
-          <FontAwesomeIcon className={'rotate-c-180 ' + (expanded ? 'rotate' : '')} style={{ marginLeft: '5px'}} icon={faChevronUp} />
+          <FontAwesomeIcon className={'rotate-c-180 ' + (expanded ? 'rotate' : '')} style={{ marginLeft: '5px'}} icon={faChevronDown} />
 
         </button>
         )
