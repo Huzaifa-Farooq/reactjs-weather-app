@@ -177,6 +177,8 @@ const App = () => {
         windspeed_10m_max: response.daily.windspeed_10m_max[index],
         apparent_temperature_max: response.daily.apparent_temperature_max[index],
         apparent_temperature_min: response.daily.apparent_temperature_min[index],
+        sunrise: new Date(response.daily.sunrise[index] * 1000),
+        sunset: new Date(response.daily.sunset[index] * 1000),
         iconSrc,
         description
       };
@@ -188,12 +190,12 @@ const App = () => {
     const { iconSrc, description } = getIconSrcAndDesc(wmoCode, isDay);
     const currentWeather = {
       ...currentHourData,
+      ...dailyForecast.filter((item) => item.time.getDate() === new Date().getDate())[0],
       "temperature": response.current_weather.temperature,
       "windspeed": response.current_weather.windspeed,
       "winddirection": response.current_weather.winddirection,
       iconSrc,
       description,
-
     };
 
     setForecastData({

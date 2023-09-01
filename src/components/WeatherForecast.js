@@ -34,6 +34,8 @@ const WeatherForecast = (props) => {
             precipitationProbability={forecastData.currentWeather.precipitation_probability}
             precipitationSum={forecastData.currentWeather.precipitation_sum}
             feelsLike={forecastData.currentWeather.feelsLike}
+            sunrise={forecastData.currentWeather.sunrise}
+            sunset={forecastData.currentWeather.sunset}
             units={props.units}
           />
           <HourlyForecast 

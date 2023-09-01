@@ -32,7 +32,7 @@ function getForecast(
     latitude: latitude,
     longitude: longitude,
     hourly: 'temperature_2m,precipitation_probability,precipitation,weathercode,windspeed_10m,relativehumidity_2m,apparent_temperature',
-    daily: 'weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,precipitation_sum,windspeed_10m_max',
+    daily: 'weathercode,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,precipitation_sum,windspeed_10m_max,sunrise,sunset',
     current_weather: true,
     timeformat: 'unixtime',
     timezone: 'GMT',

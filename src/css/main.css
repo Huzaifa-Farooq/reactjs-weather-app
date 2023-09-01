@@ -239,13 +239,29 @@ nav a.nav-link:hover{
   transition: background-color 0.3s, color 0.3s;
 }
 
+.button-round {
+  border-radius: 8px;
+  padding: 5px 8px 5px 8px;
+  margin: 0px;
+  background-color: var(--dark-bg);
+  color: var(--white-text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
 .button:hover {
   background-color: var(--dark-bg);
   color: var(--white-text-color);
   box-shadow: 0 0 5px var(--gray-text-color);
 }
+.button-round:hover {
+  background-color: var(--dark-bg);
+  font-weight: 300;
+  color: var(--white-text-color);
+  box-shadow: 0 0 5px var(--dark-bg);
+}
 
-.button:focus {
+.button:focus,
+.button-round:focus {
   outline: none;
 }
 
@@ -395,4 +411,26 @@ input[type="text"]:focus {
     padding: 0 !important;
     margin: 0 !important;
   }
+}
+
+
+.float-right {
+  float: right;
+}
+.expandable-div {
+  height: 150px;
+  overflow-y: auto;
+  transition: height 0.5s ease;
+}
+
+.expanded {
+  height: 220px;
+}
+
+/* animation */
+.rotate-c-180 {
+  transition: transform 0.3s ease; /* Add a transition for smooth rotation */
+}
+.rotate-c-180.rotate {
+  transform: rotate(180deg);
 }

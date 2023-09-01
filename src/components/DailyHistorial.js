@@ -19,7 +19,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Preloader from './Preloader';
 
 import API from '../api/api';
-
+import { formatDateFormat } from '../utils';
+ 
 
 const CustomTooltip = ({ active, payload, label, tempUnit }) => {
     if (active && payload && payload.length) {
@@ -44,23 +45,6 @@ const CustomTooltip = ({ active, payload, label, tempUnit }) => {
 
     return null;
 };
-
-
-const formatDateFormat = (date) => {
-    // date in YYYY-MM-DD format without using toISO
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
 
 
 const HistoricalTemperatureDetailsOverview = ({ overviewData }) => {
@@ -159,7 +143,7 @@ class DailyHistorial extends React.Component {
             longitude,
             formatDateFormat(startDate),
             formatDateFormat(endDate),
-            this.dailyParams.filter((param) => param != 'time'),
+            this.dailyParams.filter((param) => param !== 'time'),
             this.handleHistorialData,
             units
         );

@@ -26,6 +26,8 @@ const DailyForecastDetailsOverlay = ({ weatherForecast, hourlyForecast, units, o
             humidity={weatherForecast.humidity}
             precipitationProbability={weatherForecast.precipitation_probability_max}
             feelsLike={weatherForecast.apparent_temperature_max}
+            sunrise={weatherForecast.sunrise}
+            sunset={weatherForecast.sunset}
             units={units}
           />
           <HourlyForecast

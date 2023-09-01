@@ -315,13 +315,33 @@ const getIconSrcAndDesc = (wmoCode, isDay) => {
 	return { iconSrc, description, wiIcon };
 }
 
-function formatTimeToAMPM(date) {
+function formatTimeToAMPM(date, includeMinutes=false) {
+	if (!date){
+		return date;
+	}
 	const hours = date.getHours();
+	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? 'PM' : 'AM';
 	const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
 
-	return `${formattedHours} ${ampm}`;
+	return includeMinutes ? `${formattedHours}:${minutes} ${ampm}` :`${formattedHours} ${ampm}`;
+}
+
+const formatDateFormat = (date) => {
+    // date in YYYY-MM-DD format without using toISO
+	date = date instanceof Date ? date : new Date(date);
+    var d = date,
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 
-export { getIconSrcAndDesc, formatTimeToAMPM, unitsMap };
+export { getIconSrcAndDesc, formatTimeToAMPM, formatDateFormat, unitsMap };
