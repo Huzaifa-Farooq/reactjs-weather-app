@@ -28,7 +28,7 @@ const MainContent = ({
   selectedLocationCords, setLocationCordinates, selectedLocationInfo, setLocationData,
   forecastData, units
 }) => {
-  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const [searchSuggestions, setSearchSuggestions] = useState(null);
 
   const searchForLocation = (keywords) => {
     const handleSuggestions = (suggestions) => {
