@@ -46,13 +46,13 @@ const CurrentWeatherDetails = ({
       <div className='forcast-name'>
         <span className='gray-text'>Details</span>
         {
-        showExpandButton && (
-        <button className='button-round button btn btn-sm btn-primary float-right' onClick={toggleDetails}>
-          {expanded ? 'Hide Details' : 'Show Details'}
-          <FontAwesomeIcon className={'rotate-c-180 ' + (expanded ? 'rotate' : '')} style={{ marginLeft: '5px'}} icon={faChevronDown} />
+          showExpandButton && (
+            <button className='button-round button btn btn-sm btn-primary float-right' onClick={toggleDetails}>
+              {expanded ? 'Hide Details' : 'Show Details'}
+              <FontAwesomeIcon className={'rotate-cc-180 ' + (expanded ? 'rotate' : '')} style={{ marginLeft: '5px' }} icon={faChevronDown} />
 
-        </button>
-        )
+            </button>
+          )
         }
       </div>
       <div className={'container expandable-div ' + (expanded ? 'expanded' : '')}>
@@ -75,6 +75,13 @@ const CurrentWeatherDetails = ({
           }
         </div>
       </div>
+
+      {
+        showExpandButton &&
+        <div className='white-text center-text dropdown-indicator'>
+          <FontAwesomeIcon className={'rotate-cc-180 ' + (expanded ? 'rotate' : '')} onClick={toggleDetails} style={{ fontSize: '28px' }} icon={faChevronDown} />
+        </div>
+      }
     </div>
   );
 }

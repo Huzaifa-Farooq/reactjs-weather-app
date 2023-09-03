@@ -428,9 +428,22 @@ input[type="text"]:focus {
 }
 
 /* animation */
-.rotate-c-180 {
-  transition: transform 0.3s ease; /* Add a transition for smooth rotation */
+.rotate-cc-180 {
+  transition: transform 0.5s ease; /* Add a transition for smooth rotation */
 }
-.rotate-c-180.rotate {
-  transform: rotate(180deg);
+.rotate-cc-180.rotate {
+  transform: rotate(-180deg);
+}
+
+/* dropdown indication div */
+.dropdown-indicator {
+  padding: '5px 0px 5px 0px';
+  border-radius: 10px;
+  width: 50%;
+  margin: auto;
+  color: var(--gray-text-color);
+}
+.dropdown-indicator > *:hover {
+  color: var(--white-text-color);
+  cursor: pointer;
 }
