@@ -247,6 +247,9 @@ nav a.nav-link:hover{
   color: var(--white-text-color);
   transition: background-color 0.3s, color 0.3s;
 }
+.details-button {
+  font-size: 14px;
+}
 
 .button:hover {
   background-color: var(--dark-bg);

@@ -47,7 +47,7 @@ const CurrentWeatherDetails = ({
         <span className='gray-text'>Details</span>
         {
           showExpandButton && (
-            <button className='button-round button btn btn-sm btn-primary float-right' onClick={toggleDetails}>
+            <button className='button-round button details-button float-right' onClick={toggleDetails}>
               {expanded ? 'Hide Details' : 'Show Details'}
               <FontAwesomeIcon className={'rotate-cc-180 ' + (expanded ? 'rotate' : '')} style={{ marginLeft: '5px' }} icon={faChevronDown} />
 
