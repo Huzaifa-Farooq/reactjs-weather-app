@@ -181,6 +181,11 @@ nav a.active {
   font-weight: bold;
 }
 
+nav a:focus {
+  color: var(--white-text-color) !important;
+  text-decoration: none;
+}
+
 nav a.active:hover {
   color: var(--white-text-color);
   cursor: default;

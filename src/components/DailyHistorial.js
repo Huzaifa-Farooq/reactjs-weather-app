@@ -51,7 +51,7 @@ const HistoricalTemperatureDetailsOverview = ({ overviewData }) => {
     return (
         <div className="white-text mb-3">
             <div>
-                <h4>Overview</h4>
+                <h4><u>Overview</u></h4>
             </div>
             <div className="row">
                     {
