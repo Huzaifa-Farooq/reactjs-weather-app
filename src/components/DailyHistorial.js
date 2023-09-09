@@ -118,6 +118,7 @@ class DailyHistorial extends React.Component {
     componentDidMount() {
         this.loadComponentWithData();
     }
+
     componentDidUpdate(prevProps, prevState) {
         const currStartDate = this.state.startDate;
         const currEndDate = this.state.endDate;
@@ -128,7 +129,7 @@ class DailyHistorial extends React.Component {
         if (currEndDate <= currStartDate) {
             return;
         }
-
+        // if dates are changed then regenerate chart
         if (currStartDate !== prevStartDate || currEndDate !== prevEndDate) {
             this.loadComponentWithData();
         }

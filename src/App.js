@@ -74,6 +74,7 @@ const App = () => {
   const [forecastData, setForecastData] = useState(null);
   const [currentUnits, setCurrentUnits] = useState({});
 
+  // active -> default value
   const settingsObject = [
     {
       title: "Temperature",
@@ -236,9 +237,7 @@ const App = () => {
     else if (opt === 'settings') {
       return (
         <div className={'col-md-8 settings-div ' + animationClass} style={{ marginTop: '20px' }}>
-            <Settings
-              settingsObject={settingsObject}
-            />
+            <Settings settingsObject={settingsObject} />
           </div>
       )
     }
@@ -248,8 +247,6 @@ const App = () => {
             <DailyHistorial
               latitude={selectedLocationCords.latitude}
               longitude={selectedLocationCords.longitude}
-              startDate={new Date('2023-08-01')}
-              endDate={new Date('2023-08-20')}
               units={units}
               temperature_unit={unitsMap[units.temperature_unit]}
             />
