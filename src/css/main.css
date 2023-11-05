@@ -455,3 +455,28 @@ input[type="text"]:focus {
   color: var(--white-text-color);
   cursor: pointer;
 }
+
+
+.github-icon {
+  position: fixed;
+  bottom: 20px;
+  left: 30px; 
+  z-index: 999;
+}
+
+.github-icon:hover {
+  transform: scale(1.1);
+  transform: rotate(360deg);
+  transition: transform 0.5s ease;
+}
+
+.github-icon:focus {
+  outline: none;
+}
+
+.github-icon img {
+  width: 45px; /* Adjust the width of the icon */
+  height: auto; /* Maintain aspect ratio */
+  border: none; /* Remove border (if any) */
+  cursor: pointer; /* Show pointer cursor on hover */
+}

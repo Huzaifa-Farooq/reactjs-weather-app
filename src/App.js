@@ -1,13 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { useState, useEffect, useCallback, useRef, useMemo, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 
 import NavigationSidebar from './components/NavigationSidebar';
 import SearchBar from './components/SearchBar';
 import WeatherForecast from './components/WeatherForecast';
 import Settings from './components/Settings';
 import DailyHistorial from './components/DailyHistorial';
+
+import GithubIcon from './icons/github-logo.svg';
 
 import { getIconSrcAndDesc, unitsMap } from './utils'
 import API from './api/api';
@@ -276,6 +278,9 @@ const App = () => {
 
   return (
     <div className="">
+      <a href="https://github.com/Huzaifa-Farooq" target="_blank" class="github-icon">
+        <img src={GithubIcon} alt='Github Logo' ></img>
+      </a>
       <div className="row">
         <div className='col-md-1 nav-main-div'>
           <NavigationSidebar
